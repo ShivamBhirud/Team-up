@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+
+{{ error }}
+<br>
+<br>
+{% endif %}
+
+<h1>View Profile</h1>
+
+{% for d in data %}
+<h2>{{ d.first_name }}</h2>
+<br>
+<h2>{{ d.last_name }}</h2>
+<br>
+<h2>{{ d.gender }}</h2>
+
+{% endfor %}
+{% endblock %}

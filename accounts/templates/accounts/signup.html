@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+
+{{ error }}
+<br>
+<br>
+{% endif %}
+
+<h1>Sign Up!</h1>
+
+<form action="{% url 'signup' %}" method="POST">
+  {% csrf_token %}
+  Username:
+  <br>
+  <input type="text" name="username">
+  <br>
+  Password:
+  <br>
+  <input type="password" name="password1">
+  <br>
+  Confirm Password:
+  <br>
+  <input type="password" name="password2">
+  <br>
+  <br>
+  First Name:
+  <br>
+  <input type="text" name="first_name">
+  <br>
+  Last Name:
+  <br>
+  <input type="text" name="last_name">
+  <br>
+  Gender:
+  <br>
+  <input type="text" name="gender">
+  <br>
+  Email:
+  <!-- <br>
+  <input type="text" name="email">
+  <br>
+  City:
+  <br>
+  <input type="text" name="city">
+  <br>
+  Country:
+  <br>
+  <input type="text" name="country">
+  <br>
+  About Me:
+  <br>
+  <input type="text" name="about_me">
+  <br>
+  Portfolio:
+  <br>
+  <input type="url" name="portfolio">
+  <br>
+  Linkedin:
+  <br>
+  <input type="url" name="linkedin">
+  <br>
+  Fackebook:
+  <br>
+  <input type="url" name="fackebook">
+  <br>
+  Twitter:
+  <br>
+  <input type="url" name="twitter">
+  <br>
+  Other Links:
+  <br>
+  <input type="url" name="other_url">
+  <br>
+  Date Of Birth:
+  <br>
+  <input type="datetime-local" name="dob">
+  <br>
+  Phone (with country code):
+  <br>
+  <input type="tel" name="phone"> -->
+  <br>
+  <br>
+  <input class="btn btn-primary" type="submit" value="Sign Up!">
+</form>
+
+{% endblock %}
