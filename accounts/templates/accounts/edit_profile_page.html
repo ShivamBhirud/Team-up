@@ -13,10 +13,12 @@
 
 <form action="{% url 'edit_profile' %}" method="POST">
   {% csrf_token %}
+
+  {% for d in data %}
   <br>
   First Name:
   <br>
-  <input type="text" name="first_name">
+  <input type="text" name="first_name" value="{{ d.first_name }}">
   <br>
   Last Name:
   <br>
@@ -50,9 +52,9 @@
   <br>
   <input type="url" name="linkedin">
   <br>
-  Fackebook:
+  Facebook:
   <br>
-  <input type="url" name="fackebook">
+  <input type="url" name="facebook">
   <br>
   Twitter:
   <br>
@@ -62,10 +64,6 @@
   <br>
   <input type="url" name="other_url">
   <br>
-  Date Of Birth:
-  <br>
-  <input type="date" name="dob">
-  <br>
   Phone (with country code):
   <br>
   <input type="tel" name="phone">
@@ -73,5 +71,5 @@
   <br>
   <input class="btn btn-primary" type="submit" value="Submit">
 </form>
-
+{% endfor %}
 {% endblock %}

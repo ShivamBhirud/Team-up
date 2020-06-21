@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+
+{{ error }}
+<br>
+<br>
+{% endif %}
+
+<h1>View Profile</h1>
+<div class="row">
+  <a href="{% url 'show_profile_page' %}" class="btn btn-info ml-auto">Update Profile</a>
+</div>
+{% for d in data %}
+<br>
+First Name:
+<br>
+<h2>{{ d.first_name }}</h2>
+<br>
+Last Name:
+<br>
+<h2>{{ d.last_name }}</h2>
+<br>
+Gender:
+<br>
+<h2>{{ d.gender }}</h2>
+<br>
+City:
+<br>
+<h2>{{ d.city }}</h2>
+<br>
+Country:
+<br>
+<h2>{{ d.country }}</h2>
+<br>
+Email:
+<br>
+<h2>{{ d.email }}</h2>
+<br>
+Phone:
+<br>
+<h2>{{ d.phone }}</h2>
+<br>
+About Me:
+<br>
+<h2>{{ d.about_me }}</h2>
+<br>
+Portfolio:
+<br>
+<h2>{{ d.portfolio }}</h2>
+<br>
+Linkedin:
+<br>
+<h2>{{ d.linkedin }}</h2>
+<br>
+Facebook:
+<br>
+<h2>{{ d.facebook }}</h2>
+<br>
+Twitter:
+<br>
+<h2>{{ d.twitter }}</h2>
+<br>
+Other Link:
+<br>
+<h2>{{ d.other_url }}</h2>
+{% endfor %}
+{% endblock %}
