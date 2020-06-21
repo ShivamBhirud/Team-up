@@ -8,15 +8,15 @@ import datetime
 # Create your views here.
 def signup(request):
   if request.method == 'POST':
+    # Mandatory fields--->>>
+    if request.POST['first_name'] and request.POST['gender'] and request.POST['email'] and request.POST['city'] and request.POST['country']:
     # User has the info and wants the account now
-    if request.POST['password1'] == request.POST['password2']:
-      try:
-        user = User.objects.get(username=request.POST['username'])
-        return render(request, 'accounts/signup.html', {'error': 'User already exist!'})
-      except User.DoesNotExist:
-        user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-        # Mandatory fields--->>>
-        if request.POST['first_name'] and request.POST['gender'] and request.POST['email'] and request.POST['city'] and request.POST['country']:
+      if request.POST['password1'] == request.POST['password2']:
+        try:
+          user = User.objects.get(username=request.POST['username'])
+          return render(request, 'accounts/signup.html', {'error': 'User already exist!'})
+        except User.DoesNotExist:
+          user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
           first_name = request.POST['first_name']
           gender = request.POST['gender']
           email = request.POST['email']
@@ -25,12 +25,12 @@ def signup(request):
           user_details = extendeduser(first_name = first_name, email = email, gender = gender, city = city, country = country, user=user)
           user_details.save()
           auth.login(request, user)
-        else:
-          return render(request, 'accounts/edit_profile.html', {'error': 'All asterisk (*) marked fields are manadatory!'})
-        data = extendeduser.objects.filter(user = request.user)
-        return render(request, 'accounts/user_profile.html', {'data':data})
+          data = extendeduser.objects.filter(user = request.user)
+          return render(request, 'accounts/user_profile.html', {'data':data})
+      else:
+        return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
     else:
-      return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
+      return render(request, 'accounts/signup.html', {'error': 'All asterisk (*) marked fields are manadatory!'})
   else:
     return render(request, 'accounts/signup.html')
 
