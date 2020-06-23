@@ -9,9 +9,105 @@
 <br>
 {% endif %}
 
-<h1>Update Profile</h1>
 
-<form action="{% url 'edit_profile' %}" method="POST">
+
+<form action="{% url 'edit_profile' %}" method="POST"> 
+  {% csrf_token %}
+
+  {% for d in data %}
+  <br>
+  <h1 style="text-align: center; font-family: 'Times New Roman', Times, serif;">Update Profile</h1>
+  <br>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="validationDefault01">First name</label>
+      <input type="text" name="first_name" class="form-control" id="validationDefault01" placeholder="{{ d.first_name }}">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="validationDefault02">Last name</label>
+      <input type="text" name="last_name" class="form-control" id="validationDefault02" placeholder="{{ d.last_name }}">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="validationDefault03">City</label>
+      <input type="text" name="city" class="form-control" id="validationDefault03" placeholder="{{ d.city }}">
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="validationDefault04">Country</label>
+      <input type="text" name="country" class="form-control" id="validationDefault04" placeholder="{{ d.country }}">
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="validationDefault05">Gender</label>
+      <select class="custom-select" id="validationDefault04" name="gender" placeholder="{{ d.gender }}">
+        <option selected value="{{ d.gender }}">Choose...</option>
+        <option> Male </option>
+        <option> Female </option>
+        <option> Rather Not Say </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="inputEmail3">Email</label>
+      <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="{{ d.email }}">
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="validationDefault11">Phone (No blank space allowed)</label>
+      <input type="tel" name="phone" class="form-control" id="validationDefault11" placeholder="{{ d.phone }}">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="validationDefault05" class="col-sm-2 col-form-label">About Me</label>
+    <div class="col-sm-10">
+      <input type="text" name="about_me" class="form-control" id="validationDefault05" placeholder="{{ d.about_me }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="validationDefault06" class="col-sm-2 col-form-label">Portfolio</label>
+    <div class="col-sm-10">
+      <input type="url" name="portfolio" class="form-control" id="validationDefault06" placeholder="{{ d.portfolio }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="validationDefault07" class="col-sm-2 col-form-label">Linkedin</label>
+    <div class="col-sm-10">
+      <input type="url" name="linkedin" class="form-control" id="validationDefault07" placeholder="{{ d.linkedin }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="validationDefault08" class="col-sm-2 col-form-label">Facebook</label>
+    <div class="col-sm-10">
+      <input type="url" name="facebook" class="form-control" id="validationDefault08" placeholder="{{ d.facebook }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="validationDefault09" class="col-sm-2 col-form-label">Twitter</label>
+    <div class="col-sm-10">
+      <input type="url" name="twitter" class="form-control" id="validationDefault09" placeholder="{{ d.twitter }}">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="validationDefault10" class="col-sm-2 col-form-label">Other Links</label>
+    <div class="col-sm-10">
+      <input type="url" name="other_url" class="form-control" id="validationDefault10" placeholder="{{ d.other_url }}">
+    </div>
+  </div>
+  <div class="col-md-12 text-center"> 
+  <button class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+  <br>
+  <br>
+  {% endfor %}
+</form>
+
+{% endblock %}
+
+
+
+<!-- <form action="{% url 'edit_profile' %}" method="POST">
   {% csrf_token %}
 
   {% for d in data %}
@@ -71,5 +167,5 @@
   <br>
   <input class="btn btn-primary" type="submit" value="Submit">
 </form>
-{% endfor %}
-{% endblock %}
+{% endfor %} 
+-->

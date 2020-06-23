@@ -8,63 +8,72 @@
 <br>
 <br>
 {% endif %}
-
-<h1>View Profile</h1>
+<br>
+<h1 style="text-align: center; font-family: 'Times New Roman', Times, serif;">My Profile</h1>
+<br>
+<div class="jumbotron">
 <div class="row">
   <a href="{% url 'show_profile_page' %}" class="btn btn-info ml-auto">Update Profile</a>
 </div>
+
 {% for d in data %}
 <br>
-First Name:
-<br>
-<h2>{{ d.first_name }}</h2>
-<br>
-Last Name:
-<br>
-<h2>{{ d.last_name }}</h2>
-<br>
-Gender:
-<br>
-<h2>{{ d.gender }}</h2>
-<br>
-City:
-<br>
-<h2>{{ d.city }}</h2>
-<br>
-Country:
-<br>
-<h2>{{ d.country }}</h2>
-<br>
-Email:
-<br>
-<h2>{{ d.email }}</h2>
-<br>
-Phone:
-<br>
-<h2>{{ d.phone }}</h2>
-<br>
-About Me:
-<br>
-<h2>{{ d.about_me }}</h2>
-<br>
-Portfolio:
-<br>
-<h2>{{ d.portfolio }}</h2>
-<br>
-Linkedin:
-<br>
-<h2>{{ d.linkedin }}</h2>
-<br>
-Facebook:
-<br>
-<h2>{{ d.facebook }}</h2>
-<br>
-Twitter:
-<br>
-<h2>{{ d.twitter }}</h2>
-<br>
-Other Link:
-<br>
-<h2>{{ d.other_url }}</h2>
+<h3 class="display-8" style="font-weight: bold;"> Personal Details:</h3>
+<h3 class="display-8"> Name: {{ d.first_name }} {{ d.last_name }}</h3>
+
+<h3 class="display-8"> Gender: {{ d.gender }}</h3>
+
+<h3 class="display-8"> City: {{ d.city }}</h3>
+
+<h3 class="display-8"> Country: {{ d.country }}</h3>
+
+<h3 class="display-8"> Email: {{ d.email }}</h3>
+
+<h3 class="display-8"> Phone: {{ d.phone }}</h3>
+<hr class="my-4">
+<h3 class="display-8" style="font-weight: bold;"> About Me:</h3>
+<h3 class="display-9" style="text-align: justify;">{{ d.about_me }}</h3>
+<hr class="my-4">
+{% if d.portfolio != 'Not Provided' %}
+<h3 class="display-8"> Portfolio: <a target="_blank" href="{{ d.portfolio }}" style="font-style: italic;">{{ d.portfolio }}</a></h3>
+<hr class="my-4">
+{% else %}
+<h3 class="display-8"> Portfolio: {{ d.portfolio }}</h3>
+<hr class="my-4">
+{% endif %}
+
+{% if d.linkedin != 'Not Provided' %}
+<h3 class="display-8"> Linkedin: <a target="_blank" href="{{ d.linkedin }}" style="font-style: italic;">{{ d.linkedin }}</a></h3>
+<hr class="my-4">
+{% else %}
+<h3 class="display-8"> Linkedin: {{ d.linkedin }}</h3>
+<hr class="my-4">
+{% endif %}
+
+{% if d.facebook != 'Not Provided' %}
+<h3 class="display-8"> Facebook: <a target="_blank" href="{{ d.facebook }}" style="font-style: italic;">{{ d.facebook }}</a></h3>
+<hr class="my-4">
+{% else %}
+<h3 class="display-8"> Facebook: {{ d.facebook }}</h3>
+<hr class="my-4">
+{% endif %}
+
+{% if d.twitter != 'Not Provided' %}
+<h3 class="display-8"> Twitter: <a target="_blank" href="{{ d.twitter }}" style="font-style: italic;">{{ d.twitter }}</a></h3>
+<hr class="my-4">
+{% else %}
+<h3 class="display-8"> Twitter: {{ d.twitter }}</h3>
+<hr class="my-4">
+{% endif %}
+
+{% if d.other_url != 'Not Provided' %}
+<h3 class="display-8"> Other Link: <a target="_blank" href="{{ d.other_url }}" style="font-style: italic;">{{ d.other_url }}</a></h3>
+<hr class="my-4">
+{% else %}
+<h3 class="display-8"> Other Link: {{ d.other_url }}</h3>
+<hr class="my-4">
+{% endif %}
+
 {% endfor %}
+</div>
 {% endblock %}
