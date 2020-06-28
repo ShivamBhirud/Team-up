@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-md-12 text-center">
+  <br>
+  <h1>Team-Ups Available</h1>
+</div>
+{% for teams in teams.all reversed %}
+<div class="row pt-3">
+  <div class="col-6" style="cursor: pointer;">
+    <h1>{{ teams.short_description }}</h1>
+    <br>
+    <h4>Owner: {{ teams.logged_in_user }}</h4>
+    <br>
+    <h4>Vacancy: {{ teams.vacancy }}</h4>
+    <br>
+    <h4>Teammates Joined: {{ teams.teammates }}</h4>
+    <br>
+    <p>Description: {{ teams.description }}</p>
+    <br>
+    <h4>Published On: {{ teams.pub_date }}</h4>
+    <br>
+    <h4>Link Shared: {{ teams.relevant_url }}</h4>
+    <br>
+  </div>
+</div>
+<hr>
+{% endfor %}
+
+{% endblock %}

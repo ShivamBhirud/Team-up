@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-10">
+    <h1>Short Description:</h1>
+    <h1>{{ teams.short_description }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-10">
+    <h1>Vacancy:</h1>
+   <h1>{{ teams.vacancy }}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-10">
+    <h1>Teammates Joined</h1>
+    <h1>{{ teams.teammates }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-10">
+    <h1>Relevant Link (URL):</h1>
+   <h1>{{ teams.relevant_url }}</h1>
+  </div>
+</div>
+
+<div class="row pt-2">
+  <div class="col-4">
+    <h4><span class="oi oi-magnifying-glass"></span> T-Up by {{ teams.logged_in_user.username }}</h4>
+  </div>
+  <div class="col-4 text-right">
+    <h4><span class="oi oi-clock"></span> {{ teams.pub_date_pretty }}</h4>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-8">
+    <h1>Description:</h1>
+    <p>{{ teams.description }}</p>
+  </div>
+</div>
+<br>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+
+{{ error }}
+<br>
+<br>
+{% endif %}
+
+<br>
+<div class="col-md-12 text-center">
+<h1>Create an Entry</h1>
+</div>
+
+<form action="{% url 'create_t_up' %}" enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
+  <br>
+  <div class="form-group row">
+  <div class="col-md-3 mb-3">
+    <label for="validationDefault01">Category</label>
+    <select class="custom-select" id="validationDefault01" name="category">
+      <option selected value="Other">Choose... (Default- Other)</option>
+      <option> Technology </option>
+      <option> Sports </option>
+      <option> Gaming </option>
+      <option> Household Chores </option>
+      <option> Other </option>
+    </select>
+  </div>
+</div>
+
+  <br>
+  <div class="form-group row">
+    <label for="validationDefault02" class="col-sm-2 col-form-label">Short Description</label>
+    <div class="col-sm-10">
+      <input type="textbox" name="short_description" class="form-control" id="validationDefault02">
+    </div>
+  </div>
+  <br>
+  <div class="form-group row">
+    <label for="validationDefault03" class="col-sm-2 col-form-label">Description</label>
+    <div class="col-sm-10">
+      <input type="textbox" name="description" class="form-control" id="validationDefault03">
+    </div>
+  </div>
+  <br>
+  <div class="form-group row">
+    <label for="validationDefault04" class="col-sm-2 col-form-label">Relevant Link (URL)</label>
+    <div class="col-sm-10">
+      <input type="url" name="relevant_url" class="form-control" id="validationDefault04">
+    </div>
+  </div>
+  <br>
+  <div class="form-group row">
+  <div class="col-md-3 mb-3">
+    <label for="validationDefault05">Teammates Required (Vacancy Count in Number)</label>
+    <input type="number" name="vacancy" class="form-control" id="validationDefault05">
+  </div>
+</div>
+  <br> 
+  <div class="col-md-12 text-center"> 
+    <button class="btn btn-primary" type="submit">Create T-Up</button>
+  </div>
+<br>
+<br>
+</form>
+
+
+{% endblock %}
