@@ -35,11 +35,12 @@ def create_t_up(request):
     return render(request, 'team_up/create_t_up.html')
 
 def detail(request, team_up_id):
-  #TODO add a page where all the created t-ups are visible to the user
+  #TODO add a page where all his created t-ups are visible to the user
   teamup = get_object_or_404(Teams, pk=team_up_id)
   return render(request, 'team_up/details.html', {'teams':teamup})
 
 # Functions to handle the functionlity of all the Team-up groups
+# TODO add other team-up groups as well
 
 @login_required(login_url="/accounts/login")
 def technology(request):

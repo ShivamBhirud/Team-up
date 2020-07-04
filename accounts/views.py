@@ -116,7 +116,7 @@ def edit_profile(request):
       elif data.linkedin:
         obj.linkedin = data.linkedin
       if request.POST['facebook']:
-        obj.fackebook = request.POST['facebook']
+        obj.facebook = request.POST['facebook']
       elif data.facebook:
         obj.facebook = data.facebook
       if request.POST['twitter']:
