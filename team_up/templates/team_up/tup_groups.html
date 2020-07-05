@@ -6,12 +6,15 @@
   <br>
   <h1>Team-Ups Available</h1>
 </div>
+
 {% for teams in teams.all reversed %}
+<form action="{% url 'joined_tups' %}" enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
 <div class="row pt-3">
   <div class="col-6" style="cursor: pointer;">
     <h1>{{ teams.short_description }}</h1>
     <br>
-    <h4>Owner: {{ teams.logged_in_user }}</h4>
+    <h4>Owner: {{ teams.logged_in_user.user }}</h4>
     <br>
     <h4>Vacancy: {{ teams.vacancy }}</h4>
     <br>
@@ -23,9 +26,15 @@
     <br>
     <h4>Link Shared: {{ teams.relevant_url }}</h4>
     <br>
+    <div class="col-md-12 text-center"> 
+    <button class="btn btn-primary" name="recruiter" value="{{ teams.logged_in_user.user_id }}" type="submit">Join</button>
+    </div>
+    <br>
   </div>
 </div>
+</form>
 <hr>
 {% endfor %}
+
 
 {% endblock %}
