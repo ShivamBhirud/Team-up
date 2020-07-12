@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
-from .models import extendeduser
+from .models import Extendeduser
 from django.contrib.auth.decorators import login_required
 import datetime
 
@@ -22,10 +22,10 @@ def signup(request):
           email = request.POST['email']
           city = request.POST['city']
           country = request.POST['country']
-          user_details = extendeduser(first_name = first_name, email = email, gender = gender, city = city, country = country, user=user)
+          user_details = Extendeduser(first_name = first_name, email = email, gender = gender, city = city, country = country, user=user)
           user_details.save()
           auth.login(request, user)
-          data = extendeduser.objects.filter(user = request.user)
+          data = Extendeduser.objects.filter(user = request.user)
           return render(request, 'accounts/user_profile.html', {'data':data})
       else:
         return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
@@ -54,7 +54,7 @@ def logout(request):
 # Receiving user details after signup
 @login_required(login_url="/accounts/login")
 def edit_profile(request):
-  obj = extendeduser(user=request.user)
+  obj = Extendeduser(user=request.user)
   if request.method == 'POST':
     if request.POST['first_name'] and request.POST['last_name'] and request.POST['gender'] and request.POST['email'] and request.POST['city'] and request.POST['country'] and request.POST['phone'] and request.POST['about_me'] and request.POST['portfolio'] and request.POST['linkedin'] and request.POST['facebook'] and request.POST['twitter'] and request.POST['other_url']:
       obj.first_name = request.POST['first_name']
@@ -73,7 +73,7 @@ def edit_profile(request):
       obj.save()
       return redirect('user_profile')
     else:
-      data = extendeduser.objects.get(user = request.user)
+      data = Extendeduser.objects.get(user = request.user)
       if request.POST['phone']:
         obj.phone = request.POST['phone']
       elif data.phone:
@@ -135,12 +135,12 @@ def edit_profile(request):
 # Show User Profile
 @login_required(login_url="/accounts/login")
 def showuserdata(request):
-  data = extendeduser.objects.filter(user = request.user)
+  data = Extendeduser.objects.filter(user = request.user)
   return render(request, 'accounts/user_profile.html', {'data':data})
 
 @login_required(login_url="/accounts/login")
 def show_profile_page(request):
-  data = extendeduser.objects.filter(user = request.user)
+  data = Extendeduser.objects.filter(user = request.user)
   return render(request, 'accounts/edit_profile_page.html', {'data':data})
 
 

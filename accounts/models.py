@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-class extendeduser(models.Model):
+class Extendeduser(models.Model):
   user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
   first_name = models.CharField(max_length=255)
   last_name = models.CharField(max_length=255, default='')
