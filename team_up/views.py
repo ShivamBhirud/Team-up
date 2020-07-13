@@ -34,6 +34,7 @@ def create_t_up(request):
       # Setup Recruited_Teammates table's fields
       recruited_teammates = Recruited_Teammates()
       recruited_teammates.teamup_advertisement = Teams.objects.get(id=teams.id)
+      recruited_teammates.teammates = Extendeduser.objects.get(user=request.user)
       recruited_teammates.save()
       return redirect('/team_up/' + str(teams.id))
     else:
@@ -65,26 +66,51 @@ def joined_tups(request):
   adv_card = Teams.objects.filter(id=recruiter)
 
   for team in adv_card:
-    print(team.logged_in_user) # clicked teamup advertisement card owner
+    print(team.logged_in_user.user) # clicked teamup advertisement card owner
     print('\n\n')
   print("adv_card[0].id = " + str(adv_card[0].id))
+  print('printing vacancy')
+  print(adv_card[0].vacancy)
 
+  
   # Adding teammates to a teamup advertisement ---------------->>>>>
   rt = Recruited_Teammates(teamup_advertisement_id=adv_card[0].id)
+  print('printing teammates')
+  # Counting existing teammates for a teamup advertisement---->>>
+  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  teammates_list = []
+  total_teammates_count = 0
+  for teammate in counting_teammates:
+    teammates_list.append(str(teammate.teammates.user))
+    total_teammates_count += 1
+    print(teammate.teammates.user)
+    
+  # print(request.user_id)
+  print(teammates_list)
+  if(total_teammates_count <= adv_card[0].vacancy + 1 and str(request.user) not in teammates_list):
+    print('teammate added')
+    rt.teammates = Extendeduser(user=request.user)
+    rt.save()
+  else:
+    print('teammate already exited!')
+  # for count in count_of_teammates:
+  #   print(len(count_of_teammates))
+
   # rt = Recruited_Teammates.objects.all()
   print(request.user)
-  print('printing ID:\n')
-  print(rt.id)
-  rt.teammates = Extendeduser(user=request.user)
-  print(rt.teammates.user)
-  rt.save()
+  # print('\nprinting ID:\n')
+  # print(rt.id)
+  # rt.teammates = Extendeduser(user=request.user)
+  # print(rt.teammates.user)
+  # print(rt.teamup_advertisement.logged_in_user.user)
+  
   # ------------- Added------------>>>>>>>>>>>
 
   # print(rt.teammates)
   # data = Extendeduser.objects.filter(user_id=recruiter)
   # data = get_object_or_404(User, pk=recruiter)
   # data = User.objects.filter(username=request.user)
-
+  # rt.save()
   # print(request.user) # current user i.e t50 logged in
   
   # return render(request, 'team_up/tup_groups.html', {'teams': data})

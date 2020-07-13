@@ -29,4 +29,4 @@ class Teams(models.Model):
 
 class Recruited_Teammates(models.Model):
   teamup_advertisement = models.ForeignKey(Teams, on_delete=models.CASCADE, related_name='Tup_Advertisement')
-  teammates = models.ForeignKey(Extendeduser, on_delete=models.CASCADE, blank=True, null=True, related_name='teammates')
+  teammates = models.ForeignKey(Extendeduser, on_delete=models.CASCADE, related_name='teammates')
