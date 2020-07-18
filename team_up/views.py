@@ -55,6 +55,29 @@ def technology(request):
   teams = Teams.objects.filter(category='Technology').order_by('pub_date')
   return render(request, 'team_up/tup_groups.html', {'teams': teams})
 
+@login_required(login_url="/accounts/login")
+def other(request):
+  teams = Teams.objects.filter(category='Other').order_by('pub_date')
+  return render(request, 'team_up/tup_groups.html', {'teams': teams})
+
+@login_required(login_url="/accounts/login")
+def sports(request):
+  teams = Teams.objects.filter(category='Sports').order_by('pub_date')
+  print('Printing sports')
+  for team in teams:
+    print(team.logged_in_user)
+  return render(request, 'team_up/tup_groups.html', {'teams': teams})
+
+@login_required(login_url="/accounts/login")
+def gaming(request):
+  teams = Teams.objects.filter(category='Gaming').order_by('pub_date')
+  return render(request, 'team_up/tup_groups.html', {'teams': teams})
+
+@login_required(login_url="/accounts/login")
+def household_chores(request):
+  teams = Teams.objects.filter(category='Household Chores').order_by('pub_date')
+  return render(request, 'team_up/tup_groups.html', {'teams': teams})
+
 # Show Details of a Teamup Advertisement to the user
 def show_teamup_details(request):
   recruiter = request.POST['teamup_details'] 
@@ -140,6 +163,7 @@ def join_tup(request):
   # return render(request, 'team_up/tup_groups.html', {'teams': data})
   # return render(request, 'accounts/user_profile.html', {'data':data})
   # return render(request, 'team_up/coming_up_soon.html')
+  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
 
 '''
