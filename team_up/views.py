@@ -53,13 +53,37 @@ def detail(request, team_up_id):
 @login_required(login_url="/accounts/login")
 def technology(request):
   teams = Teams.objects.filter(category='Technology').order_by('pub_date')
-  for team in teams:
-    print(team.logged_in_user)
   return render(request, 'team_up/tup_groups.html', {'teams': teams})
 
+# Show Details of a Teamup Advertisement to the user
+def show_teamup_details(request):
+  recruiter = request.POST['teamup_details'] 
+  print(recruiter)
+  print('\n\n')
+  adv_card = Teams.objects.filter(id=recruiter)
 
-# TODO- limit the teammates according to the provided vacancy
-def joined_tups(request):
+  for team in adv_card:
+    print(team.logged_in_user.user) # clicked teamup advertisement card owner
+    print('\n\n')
+  print("adv_card[0].id = " + str(adv_card[0].id))
+  print('printing vacancy')
+  print(adv_card[0].vacancy)
+
+  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  teammates_list = []
+  total_teammates_count = 0
+  for teammate in counting_teammates:
+    teammates_list.append(str(teammate.teammates.user))
+    total_teammates_count += 1
+    print(teammate.teammates.user)
+    
+  # print(request.user_id)
+  print(teammates_list)
+
+  return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
+
+  # Add a user to the Teamup
+def join_tup(request):
   recruiter = request.POST['recruiter'] 
   print(recruiter)
   print('\n\n')
@@ -115,7 +139,8 @@ def joined_tups(request):
   
   # return render(request, 'team_up/tup_groups.html', {'teams': data})
   # return render(request, 'accounts/user_profile.html', {'data':data})
-  return render(request, 'team_up/coming_up_soon.html')
+  # return render(request, 'team_up/coming_up_soon.html')
+  return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
 
 '''
   #---------------HOW TO FETCH ALL TEAMMATES FOR A SINGLE RECRUITMENT CARD?--------->>>>>>

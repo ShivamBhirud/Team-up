@@ -8,7 +8,7 @@
 </div>
 
 {% for teams in teams.all reversed %}
-<form action="{% url 'joined_tups' %}" enctype="multipart/form-data" method="POST">
+<form action="{% url 'show_teamup_details' %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
 <div class="row pt-3">
   <div class="col-6" style="cursor: pointer;">
@@ -20,8 +20,6 @@
     <br>
     <h4>Vacancy: {{ teams.vacancy }}</h4>
     <br>
-    <h4>Teammates Joined: {{ teams.teammates }}</h4>
-    <br>
     <p>Description: {{ teams.description }}</p>
     <br>
     <h4>Published On: {{ teams.pub_date }}</h4>
@@ -29,7 +27,7 @@
     <h4>Link Shared: {{ teams.relevant_url }}</h4>
     <br>
     <div class="col-md-12 text-center"> 
-    <button class="btn btn-primary" name="recruiter" value="{{ teams.id }}" type="submit">Join</button>
+    <button class="btn btn-primary" name="teamup_details" value="{{ teams.id }}" type="submit">Details</button>
     </div>
     <br>
   </div>

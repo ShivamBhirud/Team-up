@@ -2,46 +2,62 @@
 
 {% block content %}
 
+<br>
 <div class="row">
   <div class="col-10">
-    <h1>Short Description:</h1>
-    <h1>{{ teams.short_description }}</h1>
+    <h2>Short Description:</h2>
+    <h4>{{ teams.short_description }}</h4>
   </div>
 </div>
+<br>
 <div class="row">
   <div class="col-10">
-    <h1>Vacancy:</h1>
-   <h1>{{ teams.vacancy }}</h1>
+    <h2>Vacancy:</h2>
+   <h4>{{ teams.vacancy }}</h4>
   </div>
 </div>
-
+<br>
+{% if teammates %}
 <div class="row">
   <div class="col-10">
-    <h1>Teammates Joined</h1>
-    <h1>{{ teams.teammates }}</h1>
+    <h2>Teammates Joined</h2>
+    {% for teammate in teammates %}
+    <h4>{{ teammate.teammates.user }}</h4>
+    {% endfor %}
   </div>
 </div>
+{% endif %}
+<br>
 <div class="row">
   <div class="col-10">
-    <h1>Relevant Link (URL):</h1>
-   <h1>{{ teams.relevant_url }}</h1>
+    <h2>Relevant Link (URL):</h2>
+   <h4>{{ teams.relevant_url }}</h4>
   </div>
 </div>
-
+<br>
 <div class="row pt-2">
   <div class="col-4">
-    <h4><span class="oi oi-magnifying-glass"></span> T-Up by {{ teams.logged_in_user.username }}</h4>
+    <h4><span class="oi oi-magnifying-glass"></span> T-Up by {{ teams.logged_in_user.user }}</h4>
   </div>
   <div class="col-4 text-right">
     <h4><span class="oi oi-clock"></span> {{ teams.pub_date_pretty }}</h4>
   </div>
 </div>
-
+<br>
 <div class="row">
   <div class="col-8">
     <h1>Description:</h1>
     <p>{{ teams.description }}</p>
   </div>
 </div>
+<br>
+{% if teammates %}
+<form action="{% url 'join_tup' %}" enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
+  <div class="col-md-6 text-center"> 
+    <button class="btn btn-primary" name="recruiter" value="{{ teams.id }}" type="submit">Join</button>
+  </div>
+</form>
+{% endif %}
 <br>
 {% endblock %}
