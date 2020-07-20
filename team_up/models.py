@@ -27,6 +27,14 @@ class Teams(models.Model):
     return self.pub_date.strftime('%b %e %Y')
 
 
-class Recruited_Teammates(models.Model):
+class RecruitedTeammates(models.Model):
   teamup_advertisement = models.ForeignKey(Teams, on_delete=models.CASCADE, related_name='Tup_Advertisement')
   teammates = models.ForeignKey(Extendeduser, on_delete=models.CASCADE, related_name='teammates')
+
+
+class ApplicationStatus(models.Model):
+  logged_in_user = models.CharField(max_length=100)
+  requester = models.CharField(max_length=100)
+  teamup_advertisement = models.IntegerField()
+  status = models.CharField(max_length=2)
+  date = models.DateTimeField(null=True, blank=True)

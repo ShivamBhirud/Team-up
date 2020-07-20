@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from team_up.models import Teams, Recruited_Teammates
+from team_up.models import Teams, RecruitedTeammates
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.models import Extendeduser
+from .models import ApplicationStatus
 
 
 
@@ -31,8 +32,8 @@ def create_t_up(request):
       teams.pub_date = timezone.datetime.now()
       teams.logged_in_user = request.user.extendeduser
       teams.save()
-      # Setup Recruited_Teammates table's fields
-      recruited_teammates = Recruited_Teammates()
+      # Setup RecruitedTeammates table's fields
+      recruited_teammates = RecruitedTeammates()
       recruited_teammates.teamup_advertisement = Teams.objects.get(id=teams.id)
       recruited_teammates.teammates = Extendeduser.objects.get(user=request.user)
       recruited_teammates.save()
@@ -92,7 +93,7 @@ def show_teamup_details(request):
   print('printing vacancy')
   print(adv_card[0].vacancy)
 
-  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   teammates_list = []
   total_teammates_count = 0
   for teammate in counting_teammates:
@@ -119,59 +120,67 @@ def join_tup(request):
   print('printing vacancy')
   print(adv_card[0].vacancy)
 
-  
-  # Adding teammates to a teamup advertisement ---------------->>>>>
-  rt = Recruited_Teammates(teamup_advertisement_id=adv_card[0].id)
-  print('printing teammates')
-  # Counting existing teammates for a teamup advertisement---->>>
-  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
-  teammates_list = []
-  total_teammates_count = 0
-  for teammate in counting_teammates:
-    teammates_list.append(str(teammate.teammates.user))
-    total_teammates_count += 1
-    print(teammate.teammates.user)
-    
-  # print(request.user_id)
-  print(teammates_list)
-  if(total_teammates_count <= adv_card[0].vacancy + 1 and str(request.user) not in teammates_list):
-    print('teammate added')
-    rt.teammates = Extendeduser(user=request.user)
-    rt.save()
+  # New code started for notification----->>>>>>>
+  pre_existing_requester = ApplicationStatus.objects.filter(logged_in_user=adv_card[0].logged_in_user.user,
+  requester=request.user,teamup_advertisement=adv_card[0].id,status='P')
+  if pre_existing_requester:
+    pass
   else:
-    print('teammate already exited!')
-  # for count in count_of_teammates:
-  #   print(len(count_of_teammates))
+    application_status = ApplicationStatus()
+    application_status.logged_in_user = adv_card[0].logged_in_user.user
+    application_status.requester = request.user
+    application_status.teamup_advertisement = adv_card[0].id
+    application_status.status = 'P'
+    application_status.date = timezone.datetime.now()
+    application_status.save()
+  # New code end------------>>>>>>>
 
-  # rt = Recruited_Teammates.objects.all()
-  print(request.user)
-  # print('\nprinting ID:\n')
-  # print(rt.id)
-  # rt.teammates = Extendeduser(user=request.user)
-  # print(rt.teammates.user)
-  # print(rt.teamup_advertisement.logged_in_user.user)
+  print("REQUEST SENT TO THE OWNER!")
+  # IMPORTANT CODE TO ADD THE TEMMATE------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # # Adding teammates to a teamup advertisement ---------------->>>>>
+  # rt = RecruitedTeammates(teamup_advertisement_id=adv_card[0].id)
+  # print('printing teammates')
+  # # Counting existing teammates for a teamup advertisement---->>>
+  # counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  # teammates_list = []
+  # total_teammates_count = 0
+  # for teammate in counting_teammates:
+  #   teammates_list.append(str(teammate.teammates.user))
+  #   total_teammates_count += 1
+  #   print(teammate.teammates.user)
+    
+  # # print(request.user_id)
+  # print(teammates_list)
+  # if(total_teammates_count <= adv_card[0].vacancy + 1 and str(request.user) not in teammates_list):
+  #   print('teammate added')
+  #   rt.teammates = Extendeduser(user=request.user)
+  #   rt.save()
+  # else:
+  #   print('teammate already exited!')
+  # print(request.user)
   
   # ------------- Added------------>>>>>>>>>>>
+  # IMPORTANT CODE TO ADD TEAMMATE ENDS HERE------------------------->>>>>>>>>>>>>>>>>>>>>>>
 
-  # print(rt.teammates)
-  # data = Extendeduser.objects.filter(user_id=recruiter)
-  # data = get_object_or_404(User, pk=recruiter)
-  # data = User.objects.filter(username=request.user)
-  # rt.save()
-  # print(request.user) # current user i.e t50 logged in
   
   # return render(request, 'team_up/tup_groups.html', {'teams': data})
   # return render(request, 'accounts/user_profile.html', {'data':data})
-  # return render(request, 'team_up/coming_up_soon.html')
-  counting_teammates = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
-  return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
+  return render(request, 'team_up/coming_up_soon.html')
+
+  # counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  # return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
 
 '''
   #---------------HOW TO FETCH ALL TEAMMATES FOR A SINGLE RECRUITMENT CARD?--------->>>>>>
-  rt = Recruited_Teammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  rt = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   for i in rt:
     print('printing all temmates:\n')
     print(i.teammates)
 
   #----------------------------------END--------------------->>>>>>>
 '''
+
+def notifications(request):
+  application_status = ApplicationStatus.objects.filter(logged_in_user=request.user, status='P').order_by('date')
+  return render(request, 'team_up/notifications.html', {'notifications': application_status})
+

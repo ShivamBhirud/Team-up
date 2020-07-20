@@ -10,6 +10,7 @@ urlpatterns = [
     path('gaming', views.gaming, name='gaming'), 
     path('household_chores', views.household_chores, name='household_chores'),  
     path('join_tup', views.join_tup, name='join_tup'), 
-    path('show_teamup_details', views.show_teamup_details, name='show_teamup_details'),    
+    path('show_teamup_details', views.show_teamup_details, name='show_teamup_details'), 
+    path('notifications', views.notifications, name='notifications'),    
     # path('<int:product_id>/upvote', views.upvote, name='upvote'),
 ]
