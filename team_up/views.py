@@ -119,16 +119,40 @@ def join_tup(request):
   print("adv_card[0].id = " + str(adv_card[0].id))
   print('printing vacancy')
   print(adv_card[0].vacancy)
-
+  print(request.user.id)
   # New code started for notification----->>>>>>>
-  pre_existing_requester = ApplicationStatus.objects.filter(logged_in_user=adv_card[0].logged_in_user.user,
-  requester=request.user,teamup_advertisement=adv_card[0].id,status='P')
-  if pre_existing_requester:
+  pre_existing_requester = ApplicationStatus.objects.filter(logged_in_user=Extendeduser.objects.get(user=adv_card[0].logged_in_user.user).user_id,
+  requester=request.user.id, teamup_advertisement=adv_card[0].id)
+  # print(pre_existing_requester)
+  counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  teammates_list = []
+  total_teammates_count = 0
+  for teammate in counting_teammates:
+    teammates_list.append(str(teammate.teammates.user))
+    total_teammates_count += 1
+    print(teammate.teammates.user)
+    
+  # print(request.user_id)
+  print(teammates_list)
+  print(request.user)
+  # Don't send request if user has pending request, vacancy fulfilled, or user is already accepted 
+  if(pre_existing_requester or total_teammates_count >= adv_card[0].vacancy + 1 or
+   str(request.user) in teammates_list):
     pass
   else:
     application_status = ApplicationStatus()
-    application_status.logged_in_user = adv_card[0].logged_in_user.user
-    application_status.requester = request.user
+    print(adv_card[0].logged_in_user.user)
+    # application_status.logged_in_user = adv_card[0].logged_in_user.user
+    id = Extendeduser.objects.get(user=adv_card[0].logged_in_user.user)
+    print(id.user_id)
+    application_status.logged_in_user = id.user_id
+    # application_status.requester = request.user
+    id = Extendeduser.objects.get(user=request.user)
+    print(id.user_id)
+    application_status.requester = id.user_id
+    print("Printing IMP")
+    print(application_status.logged_in_user)
+    print(application_status.requester)
     application_status.teamup_advertisement = adv_card[0].id
     application_status.status = 'P'
     application_status.date = timezone.datetime.now()
@@ -181,6 +205,85 @@ def join_tup(request):
 '''
 
 def notifications(request):
-  application_status = ApplicationStatus.objects.filter(logged_in_user=request.user, status='P').order_by('date')
-  return render(request, 'team_up/notifications.html', {'notifications': application_status})
+  id = Extendeduser.objects.get(user=request.user)
+  # print(id.user_id)
+  application_status = ApplicationStatus.objects.filter(logged_in_user=id.user_id, status='P').order_by('date')
+  if application_status:
+    requester = Extendeduser.objects.get(user=application_status[0].requester)
+    advertisement = Teams.objects.get(id=application_status[0].teamup_advertisement)
+    return render(request, 'team_up/notifications.html', {'notifications': application_status,
+    'requester':requester.first_name, 'advertisement':advertisement.short_description})
+  else:
+    return render(request, 'team_up/notifications.html', {'notifications': application_status})
 
+
+def application(request):
+  # Application Accepted
+  if request.method == 'POST':
+    if request.POST.get('teammate_status_accept'):
+      accepted = request.POST['teammate_status_accept']
+      application = ApplicationStatus.objects.filter(id=accepted)
+      teamup_adv_id = application[0].teamup_advertisement
+      adv_card = Teams.objects.filter(id=teamup_adv_id)
+      
+      # Adding teammates to a teamup advertisement ---------------->>>>>
+      rt = RecruitedTeammates(teamup_advertisement_id=adv_card[0].id)
+      print('printing teammates')
+      # Counting existing teammates for an advertisement to avoid extra teammates accepted by the owner in a team---->>>
+      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+      teammates_list = []
+      total_teammates_count = 0
+      for teammate in counting_teammates:
+        teammates_list.append(str(teammate.teammates.user))
+        total_teammates_count += 1
+        print(teammate.teammates.user)
+        
+      # print(request.user_id)
+      print(application[0].requester)
+      print(teammates_list)
+      print(request.user)
+      if(total_teammates_count <= adv_card[0].vacancy + 1 and str(application[0].requester) not in teammates_list):
+        id = Extendeduser.objects.get(user=application[0].requester)
+        requester = Extendeduser.objects.get(user=id.user_id)
+        print(requester.user)
+        rt.teammates = Extendeduser(user=requester.user)
+        rt.save()
+        application_status = ApplicationStatus(id=accepted)
+        application_status.status = 'A' # Status A means accepted!
+        application_status.save()
+      else:
+        print('Team limit Exceeded!')
+      
+      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+      return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
+      # ------------- Added------------>>>>>>>>>>>
+      # IMPORTANT CODE TO ADD TEAMMATE ENDS HERE------------------------->>>>>>>>>>>>>>>>>>>>>>>
+    
+    # Application Rejected 
+    else:
+      rejected = request.POST.get('teammate_status_reject')
+      application_status = ApplicationStatus(id=rejected)
+      application_status.status = 'R' # status R means application rejected
+      application_status.save()
+      return notifications(request)
+
+    
+    # return render(request, 'team_up/tup_groups.html', {'teams': data})
+    # return render(request, 'accounts/user_profile.html', {'data':data})
+    # return render(request, 'team_up/coming_up_soon.html')
+
+    
+
+'''
+  #---------------HOW TO FETCH ALL TEAMMATES FOR A SINGLE RECRUITMENT CARD?--------->>>>>>
+  rt = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+  for i in rt:
+    print('printing all temmates:\n')
+    print(i.teammates)
+
+  #----------------------------------END--------------------->>>>>>>
+'''
+def user_profile(request, user):
+  print(user)
+  data = Extendeduser.objects.filter(user = user)
+  return render(request, 'accounts/user_profile.html', {'data':data})

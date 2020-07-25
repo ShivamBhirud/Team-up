@@ -33,8 +33,8 @@ class RecruitedTeammates(models.Model):
 
 
 class ApplicationStatus(models.Model):
-  logged_in_user = models.CharField(max_length=100)
-  requester = models.CharField(max_length=100)
-  teamup_advertisement = models.IntegerField()
-  status = models.CharField(max_length=2)
+  logged_in_user = models.CharField(max_length=100, null=True)
+  requester = models.CharField(max_length=100, null=True)
+  teamup_advertisement = models.IntegerField(null=True)
+  status = models.CharField(max_length=2, default='NA', null=True)
   date = models.DateTimeField(null=True, blank=True)

@@ -14,7 +14,7 @@
   <div class="col-6" style="cursor: pointer;">
     <h1>{{ teams.short_description }}</h1>
     <br>
-    <h4>Owner: {{ teams.logged_in_user.user }}</h4>
+    <a href="{% url 'user_profile' user=teams.logged_in_user.user_id %}"><h4>Owner: {{ teams.logged_in_user.user }}</h4></a>
     <br>
     <h4>Card ID: {{ teams.id }}</h4>
     <br>

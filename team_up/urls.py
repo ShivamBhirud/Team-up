@@ -11,6 +11,8 @@ urlpatterns = [
     path('household_chores', views.household_chores, name='household_chores'),  
     path('join_tup', views.join_tup, name='join_tup'), 
     path('show_teamup_details', views.show_teamup_details, name='show_teamup_details'), 
-    path('notifications', views.notifications, name='notifications'),    
+    path('notifications', views.notifications, name='notifications'),
+    path('application', views.application, name='application'),
+    path('user_profile/<int:user>/', views.user_profile, name='user_profile'),
     # path('<int:product_id>/upvote', views.upvote, name='upvote'),
 ]
