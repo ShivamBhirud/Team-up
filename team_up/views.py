@@ -46,7 +46,7 @@ def create_t_up(request):
 def detail(request, team_up_id):
   #TODO add a page where all his created t-ups are visible to the user
   teamup = get_object_or_404(Teams, pk=team_up_id)
-  return render(request, 'team_up/details.html', {'teams':teamup})
+  return render(request, 'team_up/details.html', {'teams':teamup, 'owner':request.user})
 
 # Functions to handle the functionlity of all the Team-up groups
 # TODO add other team-up groups as well
@@ -100,11 +100,14 @@ def show_teamup_details(request):
     teammates_list.append(str(teammate.teammates.user))
     total_teammates_count += 1
     print(teammate.teammates.user)
-    
+  if(adv_card[0].logged_in_user.user == request.user):
+    owner = 1
+  else:
+    owner = 0
   # print(request.user_id)
   print(teammates_list)
 
-  return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
+  return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':owner})
 
   # Add a user to the Teamup
 def join_tup(request):
@@ -194,16 +197,6 @@ def join_tup(request):
   # counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   # return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
 
-'''
-  #---------------HOW TO FETCH ALL TEAMMATES FOR A SINGLE RECRUITMENT CARD?--------->>>>>>
-  rt = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
-  for i in rt:
-    print('printing all temmates:\n')
-    print(i.teammates)
-
-  #----------------------------------END--------------------->>>>>>>
-'''
-
 def notifications(request):
   id = Extendeduser.objects.get(user=request.user)
   # print(id.user_id)
@@ -255,7 +248,7 @@ def application(request):
         print('Team limit Exceeded!')
       
       counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
-      return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
+      return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':request.user})
       # ------------- Added------------>>>>>>>>>>>
       # IMPORTANT CODE TO ADD TEAMMATE ENDS HERE------------------------->>>>>>>>>>>>>>>>>>>>>>>
     
@@ -287,3 +280,7 @@ def user_profile(request, user):
   print(user)
   data = Extendeduser.objects.filter(user = user)
   return render(request, 'accounts/user_profile.html', {'data':data})
+
+def user_teamups(request):
+  user_teams = Teams.objects.filter(logged_in_user_id=request.user.id).order_by('pub_date')
+  return render(request, 'team_up/tup_groups.html', {'teams': user_teams})

@@ -51,7 +51,8 @@
   </div>
 </div>
 <br>
-{% if teammates %}
+{% if owner %}
+{% else %}
 <form action="{% url 'join_tup' %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
   <div class="col-md-6 text-center"> 
