@@ -38,3 +38,5 @@ class ApplicationStatus(models.Model):
   teamup_advertisement = models.IntegerField(null=True)
   status = models.CharField(max_length=2, default='NA', null=True)
   date = models.DateTimeField(null=True, blank=True)
+  comments = models.CharField(max_length=1000, default='Not Provided')
+  signal = models.IntegerField(default=0, null=True)

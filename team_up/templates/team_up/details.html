@@ -22,7 +22,16 @@
   <div class="col-10">
     <h2>Teammates Joined</h2>
     {% for teammate in teammates %}
-    <h4>{{ teammate.teammates.user }}</h4>
+    <h4>{{ teammate.teammates.user }}
+      {% if owner %}
+      <form action="{% url 'remove_teammate' adv=teams.id  %}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <div class="col-md-6 text-center"> 
+          <button class="btn btn-primary btn-danger" name="teammate" value="{{ teammate.teammates.user_id }}" type="submit">Remove</button>
+        </div>
+      </form>
+      {% endif %}
+    </h4>
     {% endfor %}
   </div>
 </div>
@@ -53,10 +62,10 @@
 <br>
 {% if owner %}
 {% else %}
-<form action="{% url 'join_tup' %}" enctype="multipart/form-data" method="POST">
+<form action="{% url 'join_tup' recruiter=teams.id %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
   <div class="col-md-6 text-center"> 
-    <button class="btn btn-primary" name="recruiter" value="{{ teams.id }}" type="submit">Join</button>
+    <button class="btn btn-primary" type="submit">Join</button>
   </div>
 </form>
 {% endif %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-md-12 text-center">
+  <br>
+  <h1>Requests</h1>
+</div>
+
+{% for notification in notifications.all reversed %}
+<form action="{% url 'application' %}" enctype="multipart/form-data" method="POST">
+  {% csrf_token %}
+<div class="row pt-3">
+  <div class="col-6" style="cursor: pointer;">
+    <a href="{% url 'user_profile' user=notification.requester %}">
+      <h4>Requester: {{ requester }}</h4>
+    </a>
+    <br>
+    <h4>Card ID: {{ advertisement }}</h4>
+    <br>
+    <div class="col-md-12 text-center"> 
+    <button name="teammate_status_accept" type="submit" value="{{ notification.id }}" class="btn btn-primary btn-sm btn-success">Accept</button>
+    <button name="teammate_status_reject" type="submit" value="{{ notification.id }}" class="btn btn-secondary btn-sm btn-danger">Reject</button>
+    </div>
+    <br>
+  </div>
+</div>
+</form>
+<hr>
+{% endfor %}
+
+{% endblock %}

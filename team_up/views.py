@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.models import Extendeduser
 from .models import ApplicationStatus
-
+from django.views.decorators.cache import cache_control
 
 
 def home(request):
@@ -110,8 +110,8 @@ def show_teamup_details(request):
   return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':owner})
 
   # Add a user to the Teamup
-def join_tup(request):
-  recruiter = request.POST['recruiter'] 
+def join_tup(request, recruiter):
+  # breakpoint() 
   print(recruiter)
   print('\n\n')
   adv_card = Teams.objects.filter(id=recruiter)
@@ -197,18 +197,25 @@ def join_tup(request):
   # counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   # return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
 
-def notifications(request):
+def requests(request):
   id = Extendeduser.objects.get(user=request.user)
   # print(id.user_id)
   application_status = ApplicationStatus.objects.filter(logged_in_user=id.user_id, status='P').order_by('date')
-  if application_status:
+  if(application_status):
     requester = Extendeduser.objects.get(user=application_status[0].requester)
     advertisement = Teams.objects.get(id=application_status[0].teamup_advertisement)
-    return render(request, 'team_up/notifications.html', {'notifications': application_status,
+    return render(request, 'team_up/requests.html', {'notifications': application_status,
     'requester':requester.first_name, 'advertisement':advertisement.short_description})
   else:
-    return render(request, 'team_up/notifications.html', {'notifications': application_status})
+    return render(request, 'team_up/requests.html', {'notifications': application_status})
 
+# TODO Notification not working as expected.The ower gets notified even if the temmate is removed
+def notifications(request):
+  id = Extendeduser.objects.get(user=request.user)
+  print(id.user.id)
+  notification = ApplicationStatus.objects.filter(requester=id.user.id, status='R', signal=1).order_by('date')
+  # print(notification[0])
+  return render(request, 'team_up/notifications.html', {'notifications': notification})
 
 def application(request):
   # Application Accepted
@@ -220,10 +227,10 @@ def application(request):
       adv_card = Teams.objects.filter(id=teamup_adv_id)
       
       # Adding teammates to a teamup advertisement ---------------->>>>>
-      rt = RecruitedTeammates(teamup_advertisement_id=adv_card[0].id)
+      rt = RecruitedTeammates(teamup_advertisement=adv_card[0])
       print('printing teammates')
       # Counting existing teammates for an advertisement to avoid extra teammates accepted by the owner in a team---->>>
-      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement=adv_card[0])
       teammates_list = []
       total_teammates_count = 0
       for teammate in counting_teammates:
@@ -241,13 +248,13 @@ def application(request):
         print(requester.user)
         rt.teammates = Extendeduser(user=requester.user)
         rt.save()
-        application_status = ApplicationStatus(id=accepted)
+        application_status = ApplicationStatus.objects.get(id=accepted)
         application_status.status = 'A' # Status A means accepted!
         application_status.save()
       else:
         print('Team limit Exceeded!')
       
-      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+      counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement=adv_card[0])
       return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':request.user})
       # ------------- Added------------>>>>>>>>>>>
       # IMPORTANT CODE TO ADD TEAMMATE ENDS HERE------------------------->>>>>>>>>>>>>>>>>>>>>>>
@@ -284,3 +291,31 @@ def user_profile(request, user):
 def user_teamups(request):
   user_teams = Teams.objects.filter(logged_in_user_id=request.user.id).order_by('pub_date')
   return render(request, 'team_up/tup_groups.html', {'teams': user_teams})
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def remove_teammate(request, adv):
+  if request.method == 'POST':
+    if request.POST.get('teammate'):
+      teammate = request.POST.get('teammate')
+      print(teammate)
+      print(request.user.id)
+      print(adv)
+      teamup_adv = Teams.objects.filter(id=adv)
+      if int(teammate) != int(request.user.id):
+        application_status = ApplicationStatus.objects.get(logged_in_user=request.user.id, requester=teammate,
+        teamup_advertisement=adv, status='A')
+        obj = ApplicationStatus.objects.all()
+        for i in obj:
+          print(i.logged_in_user)
+          print(i.requester)
+          print(i.teamup_advertisement)
+          print(i.status)
+          print('----------------')
+        application_status.signal = 1
+        application_status.status = 'R'
+        application_status.comments = str(teamup_adv[0].logged_in_user.first_name) +', the owner of ' + str(teamup_adv[0].short_description) + ' has removed you from the Team'
+        application_status.date = timezone.datetime.now()
+        RecruitedTeammates.objects.get(teamup_advertisement=adv, teammates=teammate).delete()
+        application_status.save()
+  # return show_teamup_details(request)
+  return render(request, 'team_up/coming_up_soon.html')

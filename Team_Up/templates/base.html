@@ -34,6 +34,7 @@
           <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
           <a class="nav-item nav-link" href="{% url 'user_profile' %}">My Profile</a>
           <a class="nav-item nav-link" href="{% url 'user_teamups' %}">My T-Ups</a>
+          <a class="nav-item nav-link" href="{% url 'requests' %}">Requests</a>
           <a class="nav-item nav-link" href="{% url 'notifications' %}">Notifications</a>
           <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}" onclick="">Logout</a>
           <form id="logout" method="POST" action="{% url 'logout' %}">
