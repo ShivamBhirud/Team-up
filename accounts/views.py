@@ -26,7 +26,7 @@ def signup(request):
           user_details.save()
           auth.login(request, user)
           data = Extendeduser.objects.filter(user = request.user)
-          return render(request, 'accounts/user_profile.html', {'data':data})
+          return render(request, 'user_profile/show.html', {'data':data})
       else:
         return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
     else:
@@ -136,12 +136,12 @@ def edit_profile(request):
 @login_required(login_url="/accounts/login")
 def showuserdata(request):
   data = Extendeduser.objects.filter(user = request.user)
-  return render(request, 'accounts/user_profile.html', {'data':data})
+  return render(request, 'user_profile/show.html', {'data':data, 'owner':True})
 
 @login_required(login_url="/accounts/login")
-def show_profile_page(request):
+def update_profile(request):
   data = Extendeduser.objects.filter(user = request.user)
-  return render(request, 'accounts/edit_profile_page.html', {'data':data})
+  return render(request, 'user_profile/update.html', {'data':data})
 
 
 

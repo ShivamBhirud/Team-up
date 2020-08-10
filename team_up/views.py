@@ -285,8 +285,13 @@ def application(request):
 '''
 def user_profile(request, user):
   print(user)
-  data = Extendeduser.objects.filter(user = user)
-  return render(request, 'accounts/user_profile.html', {'data':data})
+  print(request.user)
+  if(request.user == user):
+    data = Extendeduser.objects.filter(user = user)
+    return render(request, 'user_profile/show.html', {'data':data, 'owner':True})
+  else:
+    data = Extendeduser.objects.filter(user = user)
+    return render(request, 'user_profile/show.html', {'data':data, 'owner':False})
 
 def user_teamups(request):
   user_teams = Teams.objects.filter(logged_in_user_id=request.user.id).order_by('pub_date')
