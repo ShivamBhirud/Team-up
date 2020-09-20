@@ -36,7 +36,7 @@ class ApplicationStatus(models.Model):
   logged_in_user = models.CharField(max_length=100, null=True)
   requester = models.CharField(max_length=100, null=True)
   teamup_advertisement = models.IntegerField(null=True)
-  status = models.CharField(max_length=2, default='NA', null=True)
+  status = models.CharField(max_length=2, default='NA', null=True) # TODO enum field to set values.
   date = models.DateTimeField(null=True, blank=True)
   comments = models.CharField(max_length=1000, default='Not Provided')
-  signal = models.IntegerField(default=0, null=True)
+  signal = models.IntegerField(default=0, null=True) # TODO enum field to set values.

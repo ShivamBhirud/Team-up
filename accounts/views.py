@@ -5,34 +5,30 @@ from .models import Extendeduser
 from django.contrib.auth.decorators import login_required
 import datetime
 
-# Create your views here.
+
 def signup(request):
-  if request.method == 'POST':
-    # Mandatory fields--->>>
-    if request.POST['first_name'] and request.POST['gender'] and request.POST['email'] and request.POST['city'] and request.POST['country']:
-    # User has the info and wants the account now
-      if request.POST['password1'] == request.POST['password2']:
-        try:
-          user = User.objects.get(username=request.POST['username'])
-          return render(request, 'accounts/signup.html', {'error': 'User already exist!'})
-        except User.DoesNotExist:
-          user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-          first_name = request.POST['first_name']
-          gender = request.POST['gender']
-          email = request.POST['email']
-          city = request.POST['city']
-          country = request.POST['country']
-          user_details = Extendeduser(first_name = first_name, email = email, gender = gender, city = city, country = country, user=user)
-          user_details.save()
-          auth.login(request, user)
-          data = Extendeduser.objects.filter(user = request.user)
-          return render(request, 'user_profile/show.html', {'data':data})
-      else:
-        return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
-    else:
-      return render(request, 'accounts/signup.html', {'error': 'All asterisk (*) marked fields are manadatory!'})
-  else:
-    return render(request, 'accounts/signup.html')
+	if request.method == 'POST':
+		user = Extendeduser()
+		creds_validation = user.validate(request.POST.get('username'), request.POST.get('first_name'),
+		request.POST.get('gender'), request.POST.get('email'), request.POST.get('city'), 
+		request.POST.get('country'), request.POST.get('password1'),request.POST.get('password2'))
+		# Asterisk fields are mandatory
+		if creds_validation == 0:
+			return render(request, 'accounts/signup.html',
+			{'error': 'All asterisk (*)marked fields are manadatory!'})
+		# Passwords didn't match	
+		elif creds_validation == 1:
+			return render(request, 'accounts/signup.html', {'error': 'Password didn\'t match!'})
+		# User already registered
+		elif creds_validation == 2:
+			return render(request, 'accounts/signup.html', {'error': 'User already exist!'})
+		# User registered successfully 
+		else:
+			auth.login(request, creds_validation)
+			data = Extendeduser.objects.filter(user = request.user)
+			return render(request, 'user_profile/show.html', {'data':data})
+	else:
+		return render(request, 'accounts/signup.html')
 
 def login(request):
   if request.method == 'POST':

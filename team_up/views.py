@@ -7,6 +7,8 @@ from accounts.models import Extendeduser
 from .models import ApplicationStatus
 from django.views.decorators.cache import cache_control
 
+# SHORT_DESCRIPTION = 'short_description' 
+
 
 def home(request):
   # profile = UserProfile.objects
@@ -50,7 +52,7 @@ def detail(request, team_up_id):
 
 # Functions to handle the functionlity of all the Team-up groups
 # TODO add other team-up groups as well
-
+# TODO request.path to get the url and find the t-up type and use python switch case.
 @login_required(login_url="/accounts/login")
 def technology(request):
   teams = Teams.objects.filter(category='Technology').order_by('pub_date')
