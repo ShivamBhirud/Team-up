@@ -59,47 +59,48 @@ def tup_category(request, category):
 # Show Details of a Teamup Advertisement to the user
 def show_teamup_details(request):
 	recruiter = request.POST['teamup_details'] 
-	print(recruiter)
-	print('\n\n')
+	# print(recruiter)
+	# print('\n\n')
 	adv_card = Teams.objects.filter(id=recruiter)
 
-	for team in adv_card:
-		print(team.logged_in_user.user) # clicked teamup advertisement card owner
-		print('\n\n')
-	print("adv_card[0].id = " + str(adv_card[0].id))
-	print('printing vacancy')
-	print(adv_card[0].vacancy)
+	# for team in adv_card:
+	# 	print(team.logged_in_user.user) # clicked teamup advertisement card owner
+	# 	print('\n\n')
+	# print("adv_card[0].id = " + str(adv_card[0].id))
+	# print('printing vacancy')
+	# print(adv_card[0].vacancy)
 
 	counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
-	teammates_list = []
-	total_teammates_count = 0
-	for teammate in counting_teammates:
-		teammates_list.append(str(teammate.teammates.user))
-		total_teammates_count += 1
-		print(teammate.teammates.user)
+	# teammates_list = []
+	# total_teammates_count = 0
+	# for teammate in counting_teammates:
+	# 	teammates_list.append(str(teammate.teammates.user))
+	# 	total_teammates_count += 1
+	# 	print(teammate.teammates.user)
 	if(adv_card[0].logged_in_user.user == request.user):
 		owner = 1
 	else:
 		owner = 0
 	# print(request.user_id)
-	print(teammates_list)
+	# print(teammates_list)
 
 	return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':owner})
 
   # Add a user to the Teamup
 def join_tup(request, recruiter):
 	# breakpoint() 
-	print(recruiter)
-	print('\n\n')
+	# print(recruiter)
+	# print('\n\n')
 	adv_card = Teams.objects.filter(id=recruiter)
 
-	for team in adv_card:
-		print(team.logged_in_user.user) # clicked teamup advertisement card owner
-		print('\n\n')
-	print("adv_card[0].id = " + str(adv_card[0].id))
-	print('printing vacancy')
-	print(adv_card[0].vacancy)
-	print(request.user.id)
+	# for team in adv_card:
+	# 	print(team.logged_in_user.user) # clicked teamup advertisement card owner
+	# 	print('\n\n')
+	# print("adv_card[0].id = " + str(adv_card[0].id))
+	# print('printing vacancy')
+	# print(adv_card[0].vacancy)
+	# print(request.user.id)
+
 	# New code started for notification----->>>>>>>
 	pre_existing_requester = ApplicationStatus.objects.filter(
 		logged_in_user=Extendeduser.objects.get(user=adv_card[0].logged_in_user.user).user_id,
@@ -114,34 +115,35 @@ def join_tup(request, recruiter):
 		print(teammate.teammates.user)
 		
 	# print(request.user_id)
-	print(teammates_list)
-	print(request.user)
+	# print(teammates_list)
+	# print(request.user)
 	# Don't send request if user has pending request, vacancy fulfilled, or user is already accepted 
 	if(pre_existing_requester or total_teammates_count >= adv_card[0].vacancy + 1 or
 		str(request.user) in teammates_list):
 			pass
 	else:
 		application_status = ApplicationStatus()
-		print(adv_card[0].logged_in_user.user)
+		# print(adv_card[0].logged_in_user.user)
 		# application_status.logged_in_user = adv_card[0].logged_in_user.user
 		id = Extendeduser.objects.get(user=adv_card[0].logged_in_user.user)
-		print(id.user_id)
+		# print(id.user_id)
 		application_status.logged_in_user = id.user_id
 		# application_status.requester = request.user
 		id = Extendeduser.objects.get(user=request.user)
-		print(id.user_id)
+		# print(id.user_id)
 		application_status.requester = id.user_id
-		print("Printing IMP")
-		print(application_status.logged_in_user)
-		print(application_status.requester)
+		# print("Printing IMP")
+		# print(application_status.logged_in_user)
+		# print(application_status.requester)
 		application_status.teamup_advertisement = adv_card[0].id
 		application_status.status = 'P'
 		application_status.date = timezone.datetime.now()
 		application_status.save()
 	# New code end------------>>>>>>>
 
-	print("REQUEST SENT TO THE OWNER!")
-  # IMPORTANT CODE TO ADD THE TEMMATE------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	# print("REQUEST SENT TO THE OWNER!")
+
+  # JUST FOR EXAMPLE SAKE- IMPORTANT CODE TO ADD THE TEMMATE------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # # Adding teammates to a teamup advertisement ---------------->>>>>
   # rt = RecruitedTeammates(teamup_advertisement_id=adv_card[0].id)
   # print('printing teammates')
