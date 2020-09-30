@@ -47,6 +47,8 @@ class Extendeduser(models.Model):
 			# Asterisk fields are mandatory
 			return 0
 
+	# Update user details
+	#TODO Validate the entries
 	def user_details(
 		self, first_name, last_name, gender, email, city, country, phone,
 		about_me, portfolio, linkedin, facebook, twitter, other_url, user
