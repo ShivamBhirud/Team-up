@@ -13,5 +13,4 @@ urlpatterns = [
     path('user_profile/<int:user>/', views.user_profile, name='user_profile'),
     path('user_teamups', views.user_teamups, name='user_teamups'),
     path('remove_teammate/<int:adv>/', views.remove_teammate, name='remove_teammate'),
-    # path('<int:product_id>/upvote', views.upvote, name='upvote'),
 ]
