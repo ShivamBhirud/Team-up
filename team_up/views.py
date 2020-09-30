@@ -7,7 +7,6 @@ from accounts.models import Extendeduser
 from .models import ApplicationStatus
 from django.views.decorators.cache import cache_control
 
-# SHORT_DESCRIPTION = 'short_description' 
 
 
 def home(request):
@@ -188,7 +187,6 @@ def requests(request):
 	else:
 		return render(request, 'team_up/requests.html', {'notifications': application_status})
 
-# TODO Notification not working as expected.The ower gets notified even if the temmate is removed
 def notifications(request):
 	id = Extendeduser.objects.get(user=request.user)
 	print(id.user.id)
