@@ -121,7 +121,6 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Team_Up/static/'),
-    # os.path.join(BASE_DIR, 'team_up/static/'),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
