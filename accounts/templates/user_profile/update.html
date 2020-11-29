@@ -3,9 +3,8 @@
 {% block content %}
 
 {% if error %}
-
-{{ error }}
 <br>
+<h6 style="color:red">{{ error }}</h6>
 <br>
 {% endif %}
 
@@ -41,9 +40,9 @@
       <label for="validationDefault05">Gender</label>
       <select class="custom-select" id="validationDefault04" name="gender" placeholder="{{ d.gender }}">
         <option selected value="{{ d.gender }}">Choose...</option>
-        <option> Male </option>
-        <option> Female </option>
-        <option> Rather Not Say </option>
+        <option>Male </option>
+        <option>Female </option>
+        <option>Rather Not Say </option>
       </select>
     </div>
   </div>

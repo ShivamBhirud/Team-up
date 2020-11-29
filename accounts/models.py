@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
 # Create your models here.
@@ -85,6 +87,25 @@ class Extendeduser(models.Model):
 			'facebook', 'twitter', 'other_url'])
 			
 		return True
+
+	# Validate entered email
+	def email_validate(self, email):
+		try:
+			validate_email(email)
+		except ValidationError as e:
+			# Inappropriate email
+			return 'Email'
+		else:
+			# Email as expected
+			return True
+
+	def gender_filter(self, gender):
+		if gender == 'Gender..' or gender == 'Choose...':
+			# Gender NOT chosen correctly
+			return 'Gender'
+			# Gender chosen correctly
+		else:
+			return True
 
 
     

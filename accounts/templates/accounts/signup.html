@@ -3,9 +3,8 @@
 {% block content %}
 
 {% if error %}
-
-{{ error }}
 <br>
+<h6 style="color:red">{{ error }}</h6>
 <br>
 {% endif %}
 
@@ -74,13 +73,7 @@
                       <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
                       <input type="text" name="last_name" placeholder="Last Name">
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="input-group input-group-lg">
-                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                      <input type="text" name="gender" placeholder="Gender">
-                    </div>
-                  </div>
+                  </div>               
                   <div class="form-group">
                     <div class="input-group input-group-lg">
                       <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
@@ -93,6 +86,17 @@
                       <input type="text" name="country" placeholder="Country">
                     </div>
                   </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <select class="select" name="gender">
+                        <option>Gender..</option>
+                        <option>Male </option>
+                        <option>Female </option>
+                        <option>Rather Not Say </option>
+                      </select>
+                    </div>
+                  </div>   
                   <div class="checkbox">
                     <label>
                         <input name="remember" type="checkbox" value="Terms">
