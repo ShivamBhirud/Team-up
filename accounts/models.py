@@ -90,19 +90,22 @@ class Extendeduser(models.Model):
 
 	# Validate entered email
 	def email_validate(self, email):
-		try:
-			validate_email(email)
-		except ValidationError as e:
-			# Inappropriate email
-			return 'Email'
+		if Extendeduser.objects.filter(email=email):
+			return False
 		else:
-			# Email as expected
-			return True
+			try:
+				validate_email(email)
+			except ValidationError as e:
+				# Inappropriate email
+				return 'Email'
+			else:
+				# Email as expected
+				return True
 
 	def gender_filter(self, gender):
 		if gender == 'Gender..' or gender == 'Choose...':
 			# Gender NOT chosen correctly
-			return 'Gender'
+			return False
 			# Gender chosen correctly
 		else:
 			return True

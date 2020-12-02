@@ -31,12 +31,14 @@ def signup(request):
 				auth.login(request, creds_validation)
 				data = Extendeduser.objects.filter(user = request.user)
 				return render(request, 'user_profile/show.html', {'data':data})
+		elif email_validation == False:
+			return render(request, 'accounts/signup.html', {'error': 'Email is already registered'})
 		elif email_validation == 'Email':
 			return render(request, 'accounts/signup.html', {'error': 'Check if your email'+
-				'is in correct format.'})
-		elif gender_validation == 'Gender':
+				' is in correct format.'})
+		elif gender_validation == False:
 			return render(request, 'accounts/signup.html', {'error': 'Check if you have'+
-				'choosen the Gender correctly.'})
+				' choosen the Gender correctly.'})
 
 	else:
 		return render(request, 'accounts/signup.html')

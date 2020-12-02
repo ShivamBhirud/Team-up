@@ -21,10 +21,10 @@
 <div class="row">
   <div class="col-10">
     <h2>Teammates Joined</h2>
-    {% for teammate in teammates %}
-    <h4>{{ teammate.teammates.user }}
+    {% for key, value in teammates.items %}
+    <h4><a href="{% url 'user_profile' user=key %}">{{ value }}</h4></a>
       {% if owner %}
-      <form action="{% url 'remove_teammate' adv=teams.id  %}" enctype="multipart/form-data" method="POST">
+      <form action="{% url 'remove_teammate' adv=teams.id %}" enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         <div class="col-md-6 text-center"> 
           <button class="btn btn-primary btn-danger" name="teammate" value="{{ teammate.teammates.user_id }}" type="submit">Remove</button>

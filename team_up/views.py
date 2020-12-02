@@ -70,7 +70,14 @@ def show_teamup_details(request):
 	# print('printing vacancy')
 	# print(adv_card[0].vacancy)
 
-	counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
+	counting_teammates = RecruitedTeammates.objects.filter(
+		teamup_advertisement_id=adv_card[0].id)
+	teammate = {}
+	for user in counting_teammates:
+		extended_user = Extendeduser.objects.get(user=user.teammates.user_id)
+		full_name = str(extended_user.first_name) + ' ' + str(extended_user.last_name)
+		teammate[user.teammates.user_id] = full_name
+
 	# teammates_list = []
 	# total_teammates_count = 0
 	# for teammate in counting_teammates:
@@ -84,7 +91,8 @@ def show_teamup_details(request):
 	# print(request.user_id)
 	# print(teammates_list)
 
-	return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':owner})
+	return render(request, 'team_up/details.html', {'teams': adv_card[0],
+		'teammates': teammate, 'owner':owner})
 
   # Add a user to the Teamup
 def join_tup(request, recruiter):
