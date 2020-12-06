@@ -5,6 +5,10 @@
   Author URL: https://bootstrapmade.com
 */
 
+html,body {
+  height: 100%;  
+}
+
 .btn {
   text-shadow: none;
 }

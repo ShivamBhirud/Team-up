@@ -14,10 +14,10 @@
   <div class="col-6" style="cursor: pointer;">
     <h1>{{ teams.short_description }}</h1>
     <br>
-    <a href="{% url 'user_profile' user=teams.logged_in_user.user_id %}"><h4>Owner: {{ teams.logged_in_user.user }}</h4></a>
+    <a href="{% url 'user_profile' user=teams.logged_in_user.user_id %}"><h4>Owner: {{ teams.logged_in_user.first_name }}</h4></a>
     <br>
-    <h4>Card ID: {{ teams.id }}</h4>
-    <br>
+    <!-- <h4>Card ID: {{ teams.id }}</h4> -->
+    <!-- <br> -->
     <h4>Vacancy: {{ teams.vacancy }}</h4>
     <br>
     <p>Description: {{ teams.description }}</p>

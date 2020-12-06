@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from team_up.models import Teams, RecruitedTeammates
+from team_up.serializer import ApplicationStatusSerializer
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from accounts.models import Extendeduser
 from .models import ApplicationStatus
 from django.views.decorators.cache import cache_control
+from django.http import HttpResponse
+import json
+
 
 
 
@@ -199,10 +203,14 @@ def requests(request):
 
 def notifications(request):
 	id = Extendeduser.objects.get(user=request.user)
-	print(id.user.id)
-	notification = ApplicationStatus.objects.filter(requester=id.user.id, status='R', signal=1).order_by('date')
-	# print(notification[0])
-	return render(request, 'team_up/notifications.html', {'notifications': notification})
+	comments = []
+	# print(id.user.id)
+	notification = ApplicationStatus.objects.filter(requester=id.user.id, status='R', signal=1).order_by('-date')
+	for note in notification:
+		ser = ApplicationStatusSerializer(note)
+		comments.append(ser.data)
+	return HttpResponse(json.dumps(comments))
+	# return render(request, 'team_up/home.html', {'notifications': notification})
 
 def application(request):
   # Application Accepted
