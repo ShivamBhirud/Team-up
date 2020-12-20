@@ -8,10 +8,13 @@
 html,body {
   height: 100%;  
 }
-
 .btn {
   text-shadow: none;
 }
+
+.nav-item:hover a {
+  font-weight: bold;
+ }
 
 .btn-primary {
   color: #ffffff;
@@ -46,3 +49,8 @@ html,body {
   font-size: 22px;
   vertical-align: top;
 }
+
+.dropdown-menu {
+  overflow-y:auto; 
+  max-height:80vh
+ }

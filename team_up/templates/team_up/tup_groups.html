@@ -4,15 +4,16 @@
 
 <div class="col-md-12 text-center">
   <br>
-  <h1>Team-Ups Available</h1>
+  <h1>Team-Ups</h1>
 </div>
 
 {% for teams in teams.all reversed %}
 <form action="{% url 'show_teamup_details' %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
-<div class="row pt-3">
-  <div class="col-6" style="cursor: pointer;">
-    <h1>{{ teams.short_description }}</h1>
+<br>
+<div class="card text-center" style="border:solid grey;">
+  <h3 class="card-header">{{ teams.short_description }}</h3>
+  <div class="card-body">
     <br>
     <a href="{% url 'user_profile' user=teams.logged_in_user.user_id %}"><h4>Owner: {{ teams.logged_in_user.first_name }}</h4></a>
     <br>
@@ -20,8 +21,11 @@
     <!-- <br> -->
     <h4>Vacancy: {{ teams.vacancy }}</h4>
     <br>
-    <p>Description: {{ teams.description }}</p>
+    <hr>
+    <h4>Description: </h4>
+    <p>{{ teams.description }}</p>
     <br>
+    <hr>
     <h4>Published On: {{ teams.pub_date }}</h4>
     <br>
     <h4>Link Shared: {{ teams.relevant_url }}</h4>
@@ -30,11 +34,13 @@
     <button class="btn btn-primary" name="teamup_details" value="{{ teams.id }}" type="submit">Details</button>
     </div>
     <br>
+    </div>
   </div>
-</div>
 </form>
-<hr>
-{% endfor %}
+  {% endfor %}
+
+
+
 
 
 {% endblock %}

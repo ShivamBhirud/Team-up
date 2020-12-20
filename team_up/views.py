@@ -11,8 +11,6 @@ from django.http import HttpResponse
 import json
 
 
-
-
 def home(request):
 	# profile = UserProfile.objects
 	return render(request, 'team_up/home.html')
@@ -250,7 +248,8 @@ def application(request):
 				print('Team limit Exceeded!')
 			
 			counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement=adv_card[0])
-			return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates, 'owner':request.user})
+			return render(request, 'team_up/details.html', {'teams': adv_card[0], 
+				'teammates': counting_teammates, 'owner':request.user})
 			# ------------- Added------------>>>>>>>>>>>
 			# IMPORTANT CODE TO ADD TEAMMATE ENDS HERE------------------------->>>>>>>>>>>>>>>>>>>>>>>
 			
@@ -302,8 +301,9 @@ def remove_teammate(request, adv):
 			print(adv)
 			teamup_adv = Teams.objects.filter(id=adv)
 			if int(teammate) != int(request.user.id):
-				application_status = ApplicationStatus.objects.get(logged_in_user=request.user.id, requester=teammate,
-				teamup_advertisement=adv, status='A')
+				application_status = ApplicationStatus.objects.get(
+					logged_in_user=request.user.id, requester=teammate,
+					teamup_advertisement=adv, status='A')
 				obj = ApplicationStatus.objects.all()
 				for i in obj:
 					print(i.logged_in_user)
@@ -313,7 +313,9 @@ def remove_teammate(request, adv):
 					print('----------------')
 				application_status.signal = 1
 				application_status.status = 'R'
-				application_status.comments = str(teamup_adv[0].logged_in_user.first_name) +', the owner of ' + str(teamup_adv[0].short_description) + ' has removed you from the Team'
+				application_status.comments = str(str(teamup_adv[0].logged_in_user.first_name) +
+					', the owner of ' + str(teamup_adv[0].short_description) +
+					' has removed you from the Team')
 				application_status.date = timezone.datetime.now()
 				RecruitedTeammates.objects.get(teamup_advertisement=adv, teammates=teammate).delete()
 				application_status.save()

@@ -20,7 +20,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'logo.png' %}" class="d-inline-block alighn-top" style="width: 50px; border-radius: 100%;">
+        <img src="{% static 'logo.png' %}" class="d-inline-block alighn-top" style="width: 70px; border-radius: 100%;">
       TeamUp
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,30 +29,28 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link" href="{% url 'create_t_up' %}">Add T-Up</a>
-          <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-          <a class="nav-item nav-link" href="{% url 'user_profile' %}">My Profile</a>
-          <a class="nav-item nav-link" href="{% url 'user_teamups' %}">My T-Ups</a>
-          <a class="nav-item nav-link" href="{% url 'requests' %}">Requests</a>
+          <a class="nav-item nav-link text-light" href="{% url 'create_t_up' %}">Add T-Up</a>
+          <a class="nav-item nav-link text-light" href="{% url 'home' %}">Home</a>
+          <a class="nav-item nav-link text-light" href="{% url 'user_profile' %}">My Profile</a>
+          <a class="nav-item nav-link text-light" href="{% url 'user_teamups' %}">My T-Ups</a>
+          <a class="nav-item nav-link text-light" href="{% url 'requests' %}">Requests</a>
           <!-- <a class="nav-item nav-link"  href="{% url 'notifications' %}">Notifications</a> -->
-          <a class="nav-item nav-link" href="javascript:{document.getElementById('logout').submit()}" onclick="">Logout</a>
+          <a class="nav-item nav-link text-light" href="javascript:{document.getElementById('logout').submit()}" onclick="">Logout</a>
           <form id="logout" method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <input type="hidden"/>
           </form>
           <div class="dropdown">
-          <a href="#">
+          <!-- <a href="#"> -->
           <img src="{% static 'notification.png' %}" onclick="getNotification();" data-toggle="dropdown" class="dropdown-toggle d-inline-block alighn-top" style="width: 40px; border-radius: 100%;">
-          <span class="caret badge badge-danger" id="count"></span>
-          <ul class="dropdown-menu bg-light text-dark" id="notification_ul" role="menu" aria-labelledby="menu1">
-
+          <span class="caret badge badge-danger" id="count"></span>         
+          <ul class="dropdown-menu bg-light text-dark" style="overflow-y:auto; max-height:50vh" id="notification_ul" role="menu" aria-labelledby="menu1">
           </ul>
-        
-        </a>
+          <!-- </a> -->
         </div>
           {% else %}
-          <a class="nav-item nav-link" href="{% url 'signup' %}">Sign Up</a>
-          <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-item nav-link text-light" href="{% url 'signup' %}">Sign Up</a>
+          <a class="nav-item nav-link text-light" href="{% url 'login' %}">Login</a>
           {% endif %}
         </div>
       </div>
@@ -64,14 +62,18 @@
 
     {% block content %}
     {% endblock %}
-
+    
   </div>
 
-  <footer class="text-muted ">
-    <div class="container text-center">
-      <p class="bottom" style="font-size: small; font-weight: bold;">© Shivam Bhirud {% now "Y" %}</p>  
-      </div>
-  </footer>
+  
+  <div class="text-light fixed-bottom bg-dark">
+    <div class="text-center fixed-bottom bg-dark" style="padding-top: 0.5%;">
+      <p class="bottom" style="font-size: small; font-weight: bold;">
+        Copyright © {% now "Y" %} TeamUp &emsp; &emsp; &emsp; &emsp; &emsp; Developed by
+        <a class="ct-u-motive-color text-center" style="align-content: right;" href="http://shivambhirud.herokuapp.com" target="_blank">Shivam Bhirud</a> 
+      </p>  
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript
   ================================================== -->
@@ -97,20 +99,16 @@
                 li.innerHTML = comments[i].comments;
                 console.log(comments[i].comments);
                 ul.appendChild(li);              
-              }
-              
-              
-              
+              }   
           } 
       };
       req.open("GET", url, true);
       req.send();
-}
-window.onload = function exampleFunction() { 
-  
-  getNotification(1);
-} 
-
+    }
+    // To get notification count when page loads
+    window.onload = function exampleFunction() { 
+      getNotification(1);
+    } 
   </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
