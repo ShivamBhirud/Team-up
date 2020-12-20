@@ -2,6 +2,13 @@
 {% load static %}
 {% block content %}
 
+{% if msg %}
+<br>
+<div class="text-center">
+  <h3 class="text-success">{{ msg }}</h3>
+  <br>
+</div>
+{% endif %}
 <div class="col-md-12 text-center">
   <br>
   <h1>Team-Ups</h1>

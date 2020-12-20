@@ -99,7 +99,7 @@ def show_teamup_details(request):
   # Add a user to the Teamup
 def join_tup(request, recruiter):
 	# breakpoint() 
-	# print(recruiter)
+	# print('line 102', recruiter)
 	# print('\n\n')
 	adv_card = Teams.objects.filter(id=recruiter)
 
@@ -182,7 +182,7 @@ def join_tup(request, recruiter):
   
   # return render(request, 'team_up/tup_groups.html', {'teams': data})
   # return render(request, 'accounts/user_profile.html', {'data':data})
-	return render(request, 'team_up/coming_up_soon.html')
+	return render(request, 'team_up/join_success.html')
 
   # counting_teammates = RecruitedTeammates.objects.filter(teamup_advertisement_id=adv_card[0].id)
   # return render(request, 'team_up/details.html', {'teams': adv_card[0], 'teammates': counting_teammates})
@@ -293,7 +293,9 @@ def user_teamups(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def remove_teammate(request, adv):
+	print('line 296: ', adv)
 	if request.method == 'POST':
+		print('line 298: ', request.POST.get('teammate'))
 		if request.POST.get('teammate'):
 			teammate = request.POST.get('teammate')
 			print(teammate)
@@ -320,4 +322,8 @@ def remove_teammate(request, adv):
 				RecruitedTeammates.objects.get(teamup_advertisement=adv, teammates=teammate).delete()
 				application_status.save()
 		# return show_teamup_details(request)
-	return render(request, 'team_up/coming_up_soon.html')
+	msg = 'Activity Successful!'
+	user_teams = Teams.objects.filter(logged_in_user_id=request.user.id).order_by('pub_date')
+	return render(request, 'team_up/tup_groups.html', {
+		'teams': user_teams, 'msg':msg})
+	# return render(request, 'team_up/coming_up_soon.html')

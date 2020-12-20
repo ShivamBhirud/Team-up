@@ -22,7 +22,7 @@
               <div class="col-md-1 mb-3">
                 <form action="{% url 'remove_teammate' adv=teams.id %}" enctype="multipart/form-data" method="POST">
                   {% csrf_token %}
-                  <button class="btn btn-primary btn-danger" name="teammate" value="{{ teammate.teammates.user_id }}" type="submit">Remove</button>
+                  <button class="btn btn-primary btn-danger" name="teammate" value="{{ key }}" type="submit">Remove</button>
                 </form>
               </div>
               {% endif %}
@@ -50,9 +50,7 @@
           {% else %}
           <form action="{% url 'join_tup' recruiter=teams.id %}" enctype="multipart/form-data" method="POST">
             {% csrf_token %}
-            <div class="col-md-6 text-center"> 
-              <button class="btn btn-primary" type="submit">Join</button>
-            </div>
+            <button class="btn btn-primary" type="submit">Join</button>
           </form>
           {% endif %}
           <br>
