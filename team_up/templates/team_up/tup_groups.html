@@ -14,31 +14,31 @@
   <h1>Team-Ups</h1>
 </div>
 
-{% for teams in teams.all reversed %}
+{% for data in data %}
 <form action="{% url 'show_teamup_details' %}" enctype="multipart/form-data" method="POST">
   {% csrf_token %}
 <br>
 <div class="card text-center" style="border:solid grey;">
-  <h3 class="card-header">{{ teams.short_description }}</h3>
+  <h3 class="card-header">{{ data.short_description }}</h3>
   <div class="card-body">
     <br>
-    <a href="{% url 'user_profile' user=teams.logged_in_user.user_id %}"><h4>Owner: {{ teams.logged_in_user.first_name }}</h4></a>
+    <a href="{% url 'user_profile' user=data.logged_in_user.user_id %}"><h4>Owner: {{ data.logged_in_user.first_name }}</h4></a>
     <br>
-    <!-- <h4>Card ID: {{ teams.id }}</h4> -->
+    <!-- <h4>Card ID: {{ data.id }}</h4> -->
     <!-- <br> -->
-    <h4>Vacancy: {{ teams.vacancy }}</h4>
+    <h4>Vacancy: {{ data.vacancy }}</h4>
     <br>
     <hr>
     <h4>Description: </h4>
-    <p>{{ teams.description }}</p>
+    <p>{{ data.description }}</p>
     <br>
     <hr>
-    <h4>Published On: {{ teams.pub_date }}</h4>
+    <h4>Published On: {{ data.pub_date }}</h4>
     <br>
-    <h4>Link Shared: {{ teams.relevant_url }}</h4>
+    <h4>Link Shared: {{ data.relevant_url }}</h4>
     <br>
     <div class="col-md-12 text-center"> 
-    <button class="btn btn-primary" name="teamup_details" value="{{ teams.id }}" type="submit">Details</button>
+    <button class="btn btn-primary" name="teamup_details" value="{{ data.id }}" type="submit">Details</button>
     </div>
     <br>
     </div>
@@ -46,8 +46,33 @@
 </form>
   {% endfor %}
 
+<br>
+<br>
+<!-- Pagination Begin -->
 
-
+  {% if data.has_other_pages %}
+  <ul class="pagination">
+	<!-- Previous page -->
+	{% if data.has_previous %}
+		<li class="page-item">
+			<a class="page-link" href="?page={{ data.previous_page_number }}"> Previous</a>
+		</li>
+	{% else %}
+		<li class="page-item disabled"></li>
+	{% endif %}
+	<!-- Next page -->
+    {% if data.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ data.next_page_number }}">Next</a>
+      </li>
+	{% else %}
+	<li class="page-item disabled"></li>
+    {% endif %}
+  </ul>
+{% endif %}
+<br>
+<br>
+<br>
 
 
 {% endblock %}

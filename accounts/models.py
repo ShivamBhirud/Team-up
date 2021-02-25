@@ -38,7 +38,9 @@ class Extendeduser(models.Model):
 					return 2
 				except User.DoesNotExist:
 					user = User.objects.create_user(username, password=password1)
-					user_details = Extendeduser(first_name = first_name, email = email, gender = gender, city = city, country = country, user=user)
+					user_details = Extendeduser(
+						first_name = first_name, email = email, gender = gender,
+						city = city, country = country, user=user)
 					user_details.save()
 					# User registered successfully 
 					return user
