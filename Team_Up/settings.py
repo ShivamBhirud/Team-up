@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # In Production--->>
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 
 # Secret Key in Dev--->>
 # # SECURITY WARNING: keep the secret key used in production secret!
@@ -20,7 +20,7 @@ DEBUG = False
 # # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://teamupp.herokuapp.com/']
 
 
 # Application definition
