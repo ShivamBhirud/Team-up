@@ -71,7 +71,7 @@ WSGI_APPLICATION = 'Team_Up.wsgi.application'
 #     }
 # }
 
-Database In Production
+# Database In Production
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')
