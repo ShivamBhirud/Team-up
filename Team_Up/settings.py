@@ -4,22 +4,17 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
 # IN DEV
 # # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '2ge(*ki23_u2+u__xdl+3q#l7dfsq!#4i_62z2vg@d8ef(ncv&'
+# ALLOWED_HOSTS = ['localhost', 'teamupp.herokuapp.com']
+
 
 # In Production
 SECRET_KEY = os.environ.get('SECRET_KEY')
-# DEBUG = False
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['localhost', 'https://teamupp.herokuapp.com']
+DEBUG = os.environ.get('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = os.environ.get('teamupp.herokuapp.com')
 
 
 # Application definition
@@ -79,7 +74,7 @@ WSGI_APPLICATION = 'Team_Up.wsgi.application'
 # Database In Production
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('HEROKU_POSTGRESQL_NAVY_URL')
+        default=os.environ.get('DATABASE_URL')
     )
 }
 
@@ -121,7 +116,6 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'Team_Up/static/'),
-    # os.path.join(BASE_DIR, 'team_up/static/'),
 ]
 
 # This avoids static files not loading issue on server
