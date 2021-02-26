@@ -3,27 +3,66 @@
 {% block content %}
 
 {% if error %}
-
-{{ error }}
+<br>
+<h6 style="color:red">{{ error }}</h6>
 <br>
 <br>
 {% endif %}
 
-<h1>Login</h1>
+{% load static %}
+<br>
+<!-- ======== @Region: body ======== -->
+<head>
+    <!-- Main Stylesheet File -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" rel="stylesheet">
+</head>
 
-<form action="{% url 'login' %}" method="POST">
-  {% csrf_token %}
-  <br>
-  Username:
-  <br>
-  <input type="text" name="username">
-  <br>
-  Password:
-  <br>
-  <input type="password" name="password">
-  <br>
-  <br>
-  <input class="btn btn-primary" type="submit" value="Login">
-</form>
+<body class="fullscreen-centered page-login">
+  <!--Change the background class to alter background image, options are: benches, boots, buildings, city, metro -->
+  <div id="background-wrappe" class="benches" data-stellar-background-ratio="0.8">
+
+    <!-- ======== @Region: #content ======== -->
+
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title" style="font-weight: bold;">
+                  Login
+                </h3>
+            </div>
+            <br>
+            <div class="panel-body">
+              <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <fieldset>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
+                      <input type="text" class="form-control" name="username" placeholder="Username">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                      <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                  </div>
+                  <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                </fieldset>
+              </form>
+              <p class="m-b-0 m-t">Not signed up? <a href="{% url 'signup' %}">Sign up here</a>.</p>
+              <div class="credits">
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /row -->
+
+
+
+</body>
 
 {% endblock %}

@@ -3,54 +3,119 @@
 {% block content %}
 
 {% if error %}
-
-{{ error }}
 <br>
+<h6 style="color:red">{{ error }}</h6>
 <br>
 {% endif %}
 
-<h1>Sign Up!</h1>
+{% load static %}
+<head>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" rel="stylesheet">
 
-<form action="{% url 'signup' %}" enctype="multipart/form-data" method='POST'>
-  {% csrf_token %}
-  Username: (The one you will use to login) *
-  <br>
-  <input type="text" name="username">
-  <br>
-  Password: *
-  <br>
-  <input type="password" name="password1">
-  <br>
-  Confirm Password: *
-  <br>
-  <input type="password" name="password2">
-  <br>
-  First Name: *
-  <br>
-  <input type="text" name="first_name">
-  <br>
-  Last Name:
-  <br>
-  <input type="text" name="last_name">
-  <br>
-  Gender: *
-  <br>
-  <input type="text" name="gender">
-  <br>
-  Email: *
-  <br>
-  <input type="text" name="email">
-  <br> 
-  City: *
-  <br>
-  <input type="text" name="city">
-  <br>
-  Country: *
-  <br>
-  <input type="text" name="country">
-  <br>
-  <br>
-  <input class="btn btn-primary" type="submit" value="Sign Up!">
-</form>
+  <!-- Main Stylesheet File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<!-- ======== @Region: body ======== -->
+
+<body class="fullscreen-centered page-register">
+  <!--Change the background class to alter background image, options are: benches, boots, buildings, city, metro -->
+  <!-- <div id="background-wrappe" class="benches" data-stellar-background-ratio="0.8"> -->
+
+    <!-- ======== @Region: #content ======== -->
+    <br>
+    <div id="block">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title" style="font-weight: bolder;">
+                  Sign Up
+                </h3>
+            </div>
+            <div class="panel-body">
+              <form action="{% url 'signup' %}" enctype="multipart/form-data" method='POST' role="form">
+                {% csrf_token %}
+                <fieldset>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <input type="text" name="username" placeholder="Username (Used for login)">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
+                      <input type="text" name="email" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                      <input type="password" name="password1" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+                      <input type="password" name="password2" placeholder="Retype Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <input type="text" name="first_name" placeholder="First Name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <input type="text" name="last_name" placeholder="Last Name">
+                    </div>
+                  </div>               
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <input type="text" name="city" placeholder="City">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <input type="text" name="country" placeholder="Country">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                      <select class="select" name="gender">
+                        <option>Gender..</option>
+                        <option>Male </option>
+                        <option>Female </option>
+                        <option>Rather Not Say </option>
+                      </select>
+                    </div>
+                  </div>   
+                  <div class="checkbox">
+                    <label>
+                        <input name="remember" type="checkbox" value="Terms">
+                        I agree to the <a href="#">terms and conditions</a>.
+                      </label>
+                  </div>
+                  <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign Me Up">
+                </fieldset>
+              </form>
+              <p class="m-b-0 m-t">Already signed up? <a href="login.html">Login here</a>.</p>
+              <div class="credits">
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /row -->
+    </div>
+  </div>
+</body>
 
 {% endblock %}

@@ -3,9 +3,8 @@
 {% block content %}
 
 {% if error %}
-
-{{ error }}
 <br>
+<h6 style="color:red">{{ error }}</h6>
 <br>
 {% endif %}
 
@@ -41,9 +40,9 @@
       <label for="validationDefault05">Gender</label>
       <select class="custom-select" id="validationDefault04" name="gender" placeholder="{{ d.gender }}">
         <option selected value="{{ d.gender }}">Choose...</option>
-        <option> Male </option>
-        <option> Female </option>
-        <option> Rather Not Say </option>
+        <option>Male </option>
+        <option>Female </option>
+        <option>Rather Not Say </option>
       </select>
     </div>
   </div>
@@ -96,7 +95,7 @@
     </div>
   </div>
   <div class="col-md-12 text-center"> 
-  <button class="btn btn-primary" type="submit">Submit form</button>
+  <button class="btn btn-primary" type="submit">Submit Form</button>
   </div>
   <br>
   <br>
@@ -104,68 +103,3 @@
 </form>
 
 {% endblock %}
-
-
-
-<!-- <form action="{% url 'edit_profile' %}" method="POST">
-  {% csrf_token %}
-
-  {% for d in data %}
-  <br>
-  First Name:
-  <br>
-  <input type="text" name="first_name" value="{{ d.first_name }}">
-  <br>
-  Last Name:
-  <br>
-  <input type="text" name="last_name">
-  <br>
-  Gender:
-  <br>
-  <input type="text" name="gender">
-  <br>
-  Email:
-  <br>
-  <input type="text" name="email">
-  <br>
-  City:
-  <br>
-  <input type="text" name="city">
-  <br>
-  Country:
-  <br>
-  <input type="text" name="country">
-  <br>
-  About Me:
-  <br>
-  <input type="text" name="about_me">
-  <br>
-  Portfolio:
-  <br>
-  <input type="url" name="portfolio">
-  <br>
-  Linkedin:
-  <br>
-  <input type="url" name="linkedin">
-  <br>
-  Facebook:
-  <br>
-  <input type="url" name="facebook">
-  <br>
-  Twitter:
-  <br>
-  <input type="url" name="twitter">
-  <br>
-  Other Links:
-  <br>
-  <input type="url" name="other_url">
-  <br>
-  Phone (with country code):
-  <br>
-  <input type="tel" name="phone">
-  <br>
-  <br>
-  <input class="btn btn-primary" type="submit" value="Submit">
-</form>
-{% endfor %} 
--->

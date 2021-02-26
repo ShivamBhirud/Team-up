@@ -12,10 +12,11 @@
 <h1 style="text-align: center; font-family: 'Times New Roman', Times, serif;">My Profile</h1>
 <br>
 <div class="jumbotron">
+{% if owner %}
 <div class="row">
-  <a href="{% url 'show_profile_page' %}" class="btn btn-info ml-auto">Update Profile</a>
+  <a href="{% url 'update_profile' %}" class="btn btn-info ml-auto">Update Profile</a>
 </div>
-
+{% endif %}
 {% for d in data %}
 <br>
 <h3 class="display-8" style="font-weight: bold;"> Personal Details:</h3>
