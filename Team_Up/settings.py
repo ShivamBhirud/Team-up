@@ -120,7 +120,7 @@ STATICFILES_DIRS = [
 ]
 # This avoids static files not loading issue on server
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
-
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
@@ -131,5 +131,3 @@ TEMPLATE_DIRS = (
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # MEDIA_URL = '/media/'
-
-django_heroku.settings(locals())
