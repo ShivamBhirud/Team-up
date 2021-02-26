@@ -17,7 +17,6 @@ google-auth-httplib2==0.0.3
 httplib2==0.14.0
 idna==2.8
 joblib==0.14.0
-language-selector==0.1
 lockfile==0.12.2
 MarkupSafe==1.1.0
 monotonic==1.5
