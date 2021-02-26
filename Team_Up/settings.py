@@ -6,27 +6,28 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # IN DEV
 # # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2ge(*ki23_u2+u__xdl+3q#l7dfsq!#4i_62z2vg@d8ef(ncv&'
+# SECRET_KEY = '2ge(*ki23_u2+u__xdl+3q#l7dfsq!#4i_62z2vg@d8ef(ncv&'
 # DEBUG = True
 
 # In Production
-# SECRET_KEY = os.environ.get('SECRET_KEY')
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'teamupp.herokuapp.com']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'team_up.apps.TeamUpConfig',
-    'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'team_up.apps.TeamUpConfig',
+    # 'accounts.apps.AccountsConfig',
+    'team_up',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,7 @@ WSGI_APPLICATION = 'Team_Up.wsgi.application'
 #     }
 # }
 
-# Database In Production
+Database In Production
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')
