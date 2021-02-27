@@ -14,7 +14,6 @@
 <!-- ======== @Region: body ======== -->
 <head>
     <!-- Main Stylesheet File -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" rel="stylesheet">
 </head>
 
@@ -49,7 +48,7 @@
                       <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
                   </div>
-                  <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+                  <input class="btn btn-lg btn-primary btn-block" style="background-color:orangered" type="submit" value="Login">
                 </fieldset>
               </form>
               <p class="m-b-0 m-t">Not signed up? <a href="{% url 'signup' %}">Sign up here</a>.</p>
