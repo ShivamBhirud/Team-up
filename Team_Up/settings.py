@@ -112,9 +112,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'Team_Up/static/'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'Team_Up/static/'),
+# ]
 # This avoids static files not loading issue on server
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
