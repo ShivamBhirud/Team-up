@@ -134,6 +134,7 @@ def requests(request):
 		return render(request, 'team_up/requests.html', 
 		{'notifications': application_status})
 
+@login_required(login_url="/accounts/login")
 def notifications(request):
 	id = Extendeduser.objects.get(user=request.user)
 	comments = []
