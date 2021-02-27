@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # In Production
 SECRET_KEY = os.environ.get('SECRET_KEY')
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ['localhost', 'teamupp.herokuapp.com']
 
