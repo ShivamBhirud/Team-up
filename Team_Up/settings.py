@@ -118,7 +118,7 @@ USE_TZ = True
 # This avoids static files not loading issue on server
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
