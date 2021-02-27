@@ -119,7 +119,7 @@ USE_TZ = True
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+STATIC_URL = '/app/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'static'),
